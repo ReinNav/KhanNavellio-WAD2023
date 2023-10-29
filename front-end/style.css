@@ -1,0 +1,28 @@
+/* styles.css */
+body {
+    background-color: black;
+    color: white;
+}
+
+.btn {
+    background-color: maroon;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    margin: 5px;
+}
+
+.secondary-btn {
+    background-color: maroon;
+    border: 2px solid white;
+}
+
+.primary-btn {
+    background-color: maroon;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    margin: 5px;
+}
