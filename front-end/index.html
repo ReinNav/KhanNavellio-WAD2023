@@ -5,14 +5,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
+    <script src="https://api.mqcdn.com/sdk/mapquest-js/v1.3.2/mapquest.js"></script>
+<link type="text/css" rel="stylesheet" href="https://api.mqcdn.com/sdk/mapquest-js/v1.3.2/mapquest.css"/>
+
+    
     <title>Login - Berlin Klimaware</title>
+   
+
+
 </head>
+<script src="https://www.mapquestapi.com/sdk/leaflet/v2.2/mq-map.js?key=BTjR7udbEih1QrCTjZUq7w1m25Eket6l"></script>
+    
+
+<script src="map.js"></script>
 
 <body>
-    <main>
-        <div class="container login-container">
-            <section name="login-screen">
-                <h2>Welcome to Berlin Klimaware</h2>
+    <header>
+    <div class="container">
+        <div class="login-container">
+            <h1>Welcome to Berlin Klimaware</h1>
+            <form id="login-form" class="input-form">
                 <div class="input-group">
                     <label for="username">Username:</label>
                     <input type="text" id="username" required>
@@ -21,73 +33,77 @@
                     <label for="password">Password:</label>
                     <input type="password" id="password" required>
                 </div>
-                <button class="btn primary-btn">Login</button>
-            </section>
+                <button type="submit" class="btn primary-btn">Login</button>
+            </form>
+        </div>
+    </div>
+</header>
+
+
+    <section name="main-screen">
+        <div class="flex-row" id="main-header">
+            <h3>Welcome, Reinardus!</h3>
+            <h1>Berlin Klimaware</h1>
+            <button class="btn secondary-btn">Logout</button>
         </div>
 
-        </section>
-        <section name="main-screen">
-            <div class="flex-row" id="main-header">
-                <h3>Welcome, Reinardus!</h3>
-                <h1>Berlin Klimaware</h1>
-                <button class="btn secondary-btn">Logout</button>
-            </div>
-
-            <div class="outer-container flex-column">
-                <div class="content-container flex-row">
-                    <div class="flex-column" id="locations-side-bar">
-                        <p class="location-text">Standort 1</p>
-                        <p class="location-text">Standort 2</p>
-                        <p class="location-text">Standort 3</p>
-                    </div>
-
-                    <div class="map-container">
-                        <div class="map-inner-container"></div>
-                        <button class="primary-btn">Add</button>
-                    </div>
+        <div class="outer-container flex-column">
+            <div class="content-container flex-row">
+                <div class="flex-column" id="locations-side-bar">
+                    <p class="location-text">Standort 1</p>
+                    <p class="location-text">Standort 2</p>
+                    <p class="location-text">Standort 3</p>
                 </div>
-                
-                <footer class="flex-row" id="footer">
-                    <a>Datenschutzerklärung</a>
-                    <a>Impressum</a>
-                </footer>
+
+                <div class="map-container">
+                    <div id="map"></div>
+                </div>
+                <button class="btn primary-btn">Add</button>
             </div>
-        </section>
+        </div>
+            
+            <footer>
+                <div class="container">
+                    <a href="#">Impressum</a> | <a href="#">Datenschutzerklärung</a>
+                </div>
+            </footer>
+        </div>
+    </section>
 
-        <section name="add-screen"></section>
+    <section name="add-screen"></section>
 
-        <section name="update-delete-screen">
-            <div class="flex-column">
-                <h1>Edit location 1</h1>
-                <form id="edit-location-form">
-                    <div class="flex-column">
-                        <label id="fname-label">Name</label>
-                        <input type="text" id="fname" value="Location 1"><br><br>
+    <section name="update-delete-screen">
+        <div class="flex-column">
+            <h1>Edit location 1</h1>
+            <form id="edit-location-form">
+                <div class="flex-column">
+                    <label id="fname-label">Name</label>
+                    <input type="text" id="fname" value="Location 1"><br><br>
 
-                        <label id="fdesc-label">Description</label>
-                        <input type="text" id="fdesc" value="Factory that produces very many toxic waste"><br><br>
+                    <label id="fdesc-label">Description</label>
+                    <input type="text" id="fdesc" value="Factory that produces very many toxic waste"><br><br>
 
-                        <label id="fstreet-label">Street</label>
-                        <input type="text" id="fdesc" value="Müllerstraße"><br><br>
+                    <label id="fstreet-label">Street</label>
+                    <input type="text" id="fstreet" value="Müllerstraße"><br><br>
 
-                        <label id="fstreetnumber-label">Street number</label>
-                        <input type="number" id="fstreetnumber" value="1"><br><br>
+                    <label id="fstreetnumber-label">Street number</label>
+                    <input type="number" id="fstreetnumber" value="1"><br><br>
 
-                        <label id="fpostal-label">Postal code</label>
-                        <input type="number" id="fpostal" value="13350"><br><br>
+                    <label id="fpostal-label">Postal code</label>
+                    <input type="number" id="fpostal" value="13350"><br><br>
 
-                        <label id="fpollution-level-label">Pollution level <br><span id="scale">(Scale from 1 to 10)</span></label>
-                        <input type="number" id="fpollution-level" value="10"><br><br>
-                    </div>
+                    <label id="fpollution-level-label">Pollution level <br><span id="scale">(Scale from 1 to 10)</span></label>
+                    <input type="number" id="fpollution-level" value="10"><br><br>
+                </div>
 
-                    <div class="flex-row" id="form-btns-container">
-                        <button class="btn secondary-btn">Cancel</button>
-                        <input class="btn primary-btn" type="submit" value="Submit">
-                        <button class="btn" id="form-delete-btn">Delete location</button>
-                    </div>
-                </form>
-            </div>
-        </section>
-    </main>
+                <div class="flex-row" id="form-btns-container">
+                    <button class="btn secondary-btn">Cancel</button>
+                    <input class="btn primary-btn" type="submit" value="Submit">
+                    <button class="btn" id="form-delete-btn">Delete location</button>
+                </div>
+            </form>
+        </div>
+    </section>
 </body>
+
 </html>
