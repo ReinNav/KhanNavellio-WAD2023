@@ -41,8 +41,8 @@
     <section name="main-screen">
         <header>
             <div class="flex-row" id="main-header">
-                <h3>Welcome, Reinardus!</h3>
-                <h1>Berlin Klimaware</h1>
+                <image src="res/klimaware_logo.png" alt="logo" id="klimaware_logo"> </image>
+                <h1>Welcome, Reinardus!</h1>
                 <button class="btn secondary-btn">Logout</button>
             </div>
         </header>
@@ -115,89 +115,146 @@
     </section>
     <section name="Add-Screen">
         <div class="flex-column">
-            <h1>Add a location </h1>
-            <form id="edit-location-form">
-                <div class="flex-column">
-                    <label id="fname-label">Name</label>
-                    <input type="text" id="fname" value="Location 1">
-
-                    <label id="fdesc-label">Description</label>
-                    <input type="text" id="fdesc" value="Factory that produces very many toxic waste">
-
-                    <label id="fstreet-label">Street</label>
-                    <input type="text" id="fstreet" value="Müllerstraße">
-
-                    <label id="fpostal-label">Postal code</label>
-                    <input type="number" id="fpostal" value="13350">
+            <form class="location-form">
+                <div class="form-inner-container">
+                    <h1>Add a new location</h1>
+                    <div class="flex-column field">
+                        <label id="fname-label">Name</label>
+                        <input type="text" id="fname" value="Location 1">
+                    </div>
                     
-                    <label id="fcity-label">City</label>
-                    <input type="number" id="fcity" value="1">
+                    <div class="flex-column field">
+                        <label id="fdesc-label">Description</label>
+                        <input type="text" id="fdesc" value="Factory that produces very many toxic waste">
+                    </div>
                     
-                    <label id="fcity-label">State</label>
-                    <select id="fstate" name="state">
-                        <option value="berlin">Berlin</option>
-                        <option value="brandenburg">Brandenburg</option>
-                    </select>
+                    <div class="flex-row double-field">
+                        <div class="flex-column field" id="street">
+                            <label id="fstreet-label">Street</label>
+                            <input type="text" id="fstreet" value="Müllerstraße">
+                        </div>
 
-                    <label id="flatitude-label">Latitude</label>
-                    <input type="number" id="flatitude-level" value="10">
+                        <div class="flex-column field" id="postal">
+                            <label id="fpostal-label">Postal code</label>
+                            <input type="number" id="fpostal" value="13350">
+                        </div>
+                    </div>
+                    
+                    <div class="flex-row double-field">
+                        <div class="flex-column field" id="city">
+                            <label id="fcity-label">City</label>
+                            <input type="text" id="fcity" value="Berlin">
+                        </div>
 
-                    <label id="flongitude-label">Longitude</label>
-                    <input type="number" id="flongitude-level" value="10">
+                        <div class="flex-column field" id="state">
+                            <label id="fstate-label">State</label>
+                            <select id="fstate" name="state">
+                                <option value="berlin">Berlin</option>
+                                <option value="brandenburg">Brandenburg</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="flex-row double-field">
+                        <div class="flex-column field">
+                            <label id="flatitude-label">Latitude</label>
+                            <input type="number" id="flatitude-level" value="10">
+                        </div>
+                        <div class="flex-column field">
+                            <label id="flongitude-label">Longitude</label>
+                            <input type="number" id="flongitude-level" value="10">
+                        </div>
+                    </div>
 
-                    <label id="fpollution-level-label">Pollution level <br><span id="scale">(Scale from 1 to 10)</span></label>
-                    <input type="number" id="fpollution-level" value="10">
-                </div>
-
-                <div class="flex-row" id="form-btns-container">
-                    <button class="btn secondary-btn">Cancel</button>
-                    <button class="btn primary-btn" id="form-delete-btn">Save</button>
-                </div>
+                    <div class="flex-column field">
+                        <label id="fpollution-level-label">Pollution level <span id="scale">(Scale from 1 to 10)</span></label>
+                        <input type="number" id="fpollution-level" value="10">
+                    </div>
+                    
+                    </div>
+                    <div id="form-btns-container">
+                        <div class="flex-row">
+                            <button class="btn secondary-btn">Cancel</button>
+                            <button class="btn primary-btn">Add</button>
+                        </div>
+                    </div>
             </form>
         </div>
     </section>
 
     <section name="update-delete-screen">
         <div class="flex-column">
-            <h1>Edit location 1</h1>
-            <form id="edit-location-form">
-                <div class="flex-column">
-                    <label id="fname-label">Name</label>
-                    <input type="text" id="fname" value="Location 1">
-
-                    <label id="fdesc-label">Description</label>
-                    <input type="text" id="fdesc" value="Factory that produces very many toxic waste">
-
-                    <label id="fstreet-label">Street</label>
-                    <input type="text" id="fstreet" value="Müllerstraße">
-
-                    <label id="fpostal-label">Postal code</label>
-                    <input type="number" id="fpostal" value="13350">
+            
+            <form class="location-form">
+                <div class="form-inner-container">
+                    <h1>Edit location 1</h1>
+                    <div class="flex-column field">
+                        <label id="fname-label">Name</label>
+                        <input type="text" id="fname" value="Location 1">
+                    </div>
                     
-                    <label id="fcity-label">City</label>
-                    <input type="number" id="fcity" value="1">
+                    <div class="flex-column field">
+                        <label id="fdesc-label">Description</label>
+                        <input type="text" id="fdesc" value="Factory that produces very many toxic waste">
+                    </div>
                     
-                    <label id="fcity-label">State</label>
-                    <select id="fstate" name="state">
-                        <option value="berlin">Berlin</option>
-                        <option value="brandenburg">Brandenburg</option>
-                    </select>
+                    <div class="flex-row double-field">
+                        <div class="flex-column field" id="street">
+                            <label id="fstreet-label">Street</label>
+                            <input type="text" id="fstreet" value="Müllerstraße">
+                        </div>
 
-                    <label id="flatitude-label">Latitude</label>
-                    <input type="number" id="flatitude-level" value="10">
+                        <div class="flex-column field" id="postal">
+                            <label id="fpostal-label">Postal code</label>
+                            <input type="number" id="fpostal" value="13350">
+                        </div>
+                    </div>
+                    
+                    <div class="flex-row double-field">
+                        <div class="flex-column field" id="city">
+                            <label id="fcity-label">City</label>
+                            <input type="text" id="fcity" value="Berlin">
+                        </div>
 
-                    <label id="flongitude-label">Longitude</label>
-                    <input type="number" id="flongitude-level" value="10">
-
-                    <label id="fpollution-level-label">Pollution level <br><span id="scale">(Scale from 1 to 10)</span></label>
-                    <input type="number" id="fpollution-level" value="10">
+                        <div class="flex-column field" id="state">
+                            <label id="fstate-label">State</label>
+                            <select id="fstate" name="state">
+                                <option value="berlin">Berlin</option>
+                                <option value="brandenburg">Brandenburg</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="flex-row double-field">
+                        <div class="flex-column field">
+                            <label id="flatitude-label">Latitude</label>
+                            <input type="number" id="flatitude-level" value="10">
+                        </div>
+                        <div class="flex-column field">
+                            <label id="flongitude-label">Longitude</label>
+                            <input type="number" id="flongitude-level" value="10">
+                        </div>
+                    </div>
+                    
+                    
+                    
+                    
+                    <div class="flex-column field">
+                        <label id="fpollution-level-label">Pollution level <span id="scale">(Scale from 1 to 10)</span></label>
+                        <input type="number" id="fpollution-level" value="10">
+                    </div>
+                    
                 </div>
-
-                <div class="flex-row" id="form-btns-container">
-                    <button class="btn secondary-btn">Cancel</button>
-                    <input class="btn primary-btn" type="submit" value="Submit">
-                    <button class="btn" id="form-delete-btn">Delete location</button>
-                </div>
+                    
+                    <div class="flex-column" id="form-btns-container">
+                        <div class="flex-row">
+                            <button class="btn secondary-btn">Cancel</button>
+                            <input class="btn primary-btn" type="submit" value="Submit">
+                        </div>
+                        
+                        <button class="delete-btn">delete this location instead</button>
+                    </div>
+                
             </form>
         </div>
     </section>

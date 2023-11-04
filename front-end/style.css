@@ -1,31 +1,35 @@
 body {
     font-family: 'Roboto', sans-serif;
-    background-color: #222;
+    background-color: #0a1823;
     margin: 0;
     padding: 0;
     color: white; /* Set text color to white for better visibility */
 }
 
 section {
-    max-height: 800px;
+    height: 90vw;
 }
 
 .login-outer-container {
-    background-color: #222;
     color: white;
     padding-left: 15px;
     text-align: center;
 }
 
-header {
+#main-header {
+    background-color: #060f1656;
     color: white;
-    padding-left: 20px;
-    padding-right: 20px;
+    border-bottom: solid 1px #ffffff56;
+    padding: 10px 20px 10px 20px;
     text-align: center;
+    align-items: center;
+    justify-content: space-between;
 }
 
-#main-header {
-    justify-content: space-between;
+#klimaware_logo {
+    width: 300px;
+    height: 70px;
+    object-fit: cover;
 }
 
 .input-group {
@@ -40,17 +44,21 @@ header {
 }
 
 .btn {
-    max-width: 100px;
-    background-color: #800000; /* Maroon color for buttons */
+    width: 80px;
     color: white;
     border: none;
+    border-radius: 15px;
     padding: 10px 20px;
     cursor: pointer;
     transition: all 0.3s ease;
 }
 
+.btn.btn.primary-btn {
+    background-color: #b7161d;
+}
+
 .btn.secondary-btn {
-    background-color: #800000;
+    background-color: #b7161e93;
 }
 
 .btn:hover {
@@ -69,11 +77,11 @@ header {
 
 .outer-container {
     align-items: flex-start;
-    max-height: 600px;
+    height: 400px;
 }
 
 #locations-side-bar {
-    width: 30%;
+    min-width: 300px;
     height: 100%;
     align-items: center;
     justify-content: flex-start;
@@ -81,10 +89,9 @@ header {
 }
 
 .map-container {
-    padding: 10px 20px 20px 20px;
+    padding-bottom: 20px;
     width: 70%;
     height: 400px;
-    margin-left: 20px;
 }
 
 #map {
@@ -94,12 +101,8 @@ header {
 
 #add-btn {
     margin-top: 20px;
+    margin-bottom: 10px;
     margin-left: auto;
-}
-
-.btn.primary-btn,
-.btn.secondary-btn {
-    margin: 0; /* Reset margin for the buttons */
 }
 
 .map-inner-container {
@@ -107,8 +110,6 @@ header {
     height: 100%;
     background-color: #ddd;
 }
-
-
 
 .login-container {
     background-color: #f0f0f0;
@@ -187,23 +188,76 @@ a {
     color: lightblue;
 }
 
-#fname,
-#fstreet,
-#fpostal,
-#fcity,
-#fstate,
-#flatitude-level,
-#flongitude-level,
-#fpollution-level {
-    width: 100%; /* Set the input fields to 100% width */
-    max-width: 300px; /* Set the maximum width for the input fields */
-    margin-bottom: 10px; /* Add some space between input fields */
+.location-form {
+    padding-top: 20px;
+    padding-bottom: 30px;
+    font-size: 12px;
+    border: solid 1px grey;
+    width: 500px;
+    background-color: transparent;
+    border-radius: 10px;
+    text-align: left;
+    transition: all 0.3s ease;
+    margin: 0 auto; /* Center the container horizontally */
 }
-#fdesc {
-    width: 100%; /* Set the input fields to 100% width */
-    max-width: 450px; /* Set the maximum width for the input fields */
-    margin-bottom: 10px; /* Add some space between input fields */
+
+.location-form h1 {
+    text-align: center;
 }
+
+.form-inner-container {
+    width: 350px;
+    margin: 0 auto;
+}
+
+.field {
+    width: 100%;
+    justify-content: flex-start;
+    margin-bottom: 15px;
+}
+
+.form-inner-container input, .form-inner-container select {
+    width: 100%; /* Set the input fields to 100% width */
+    height: 15px; /* Add some space between input fields */
+    margin-top: 5px;
+    color: white;
+    background-color: #2c3942;
+    border: solid 1px rgb(41, 41, 41);
+    border-radius: 5px;
+    padding: 8px;
+}
+
+.location-form select {
+    padding: 8px;
+    height: 33px;
+}
+
+.double-field {
+    width: 100%;
+    justify-content: space-between;
+    gap: 25px;
+}
+
+#form-btns-container {
+    margin: 0 auto;
+    width: 300px;
+}
+
+#form-btns-container .flex-row {
+    justify-content: space-around;
+} 
+
+.delete-btn {
+    background-color: transparent;
+    border: none;
+    color: rgb(237, 18, 18);
+    margin-top: 20px;
+    font-size: 10px;
+}
+
+
+
+
 
 
 
