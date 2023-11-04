@@ -5,11 +5,26 @@ body {
     padding: 0;
 }
 
-header {
+section {
+    max-height: 800px;
+}
+
+.login-outer-container {
     background-color: #4caf50;
     color: white;
-    padding: 15px;
+    padding-left: 15px;
     text-align: center;
+}
+
+header {
+    color: white;
+    padding-left: 20px;
+    padding-right: 20px;
+    text-align: center;
+}
+
+#main-header {
+    justify-content: space-between;
 }
 
 .input-group {
@@ -24,6 +39,7 @@ header {
 }
 
 .btn {
+    max-width: 100px;
     background-color: #4caf50;
     color: white;
     border: none;
@@ -42,8 +58,7 @@ header {
 
 .flex-row {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
+    flex-direction: row;
 }
 
 .flex-column {
@@ -51,16 +66,34 @@ header {
     flex-direction: column;
 }
 
+.outer-container {
+    align-items: flex-start;
+    max-height: 600px;
+}
+
+#locations-side-bar {
+    width: 30%;
+    height: 100%;
+    align-items: center;
+    justify-content: flex-start;
+    background-color: #333;
+}
+
 .map-container {
-    float: right;
-    width: 300px; /* Set a specific width for the map container */
-    height: 300px; /* Set the height according to your design */
-    margin-left: 20px; /* Add margin to separate the map from the buttons */
+    padding: 10px 20px 20px 20px;
+    width: 70%;
+    height: 400px;
+    margin-left: 20px;
 }
 
 #map {
     height: 100%; /* Set the map height to fill the container */
     width: 100%; /* Set the map width to fill the container */
+}
+
+#add-btn {
+    margin-top: 20px;
+    margin-left: auto;
 }
 
 .btn.primary-btn,
@@ -70,16 +103,11 @@ header {
 
 .map-inner-container {
     width: 100%;
-    height: 300px;
+    height: 100%;
     background-color: #ddd;
 }
 
-footer {
-    background-color: #333;
-    color: white;
-    text-align: center;
-    padding: 10px 0;
-}
+
 
 .login-container {
     background-color: #f0f0f0;
@@ -107,3 +135,56 @@ footer {
 .btn.primary-btn:hover {
     background-color: #45a049;
 }
+
+#form-btns-container {
+    justify-content: space-between;
+}
+
+.footer-container {
+    align-items: flex-start;
+    text-align: left;
+    font-size: 9px;
+    line-height: 1.7;
+}
+
+#logo {
+    padding-top: 10px;
+    width: 200px;
+    height: 40px;
+}
+
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 10px 30px;
+}
+
+#inner-footer-1, #inner-footer-2 {
+    margin-right: 30px;
+    width: 300px;
+}
+
+#inner-footer-2 {
+    align-items: center;
+}
+
+.authors {
+    width: 100%;
+    justify-content: flex-start;
+    gap: 30px;
+}
+
+#footer-links {
+    margin-top: 10px;
+    width: 100%;
+    justify-content: flex-start;
+    gap: 15px;
+}
+
+a {
+    color: lightblue;
+}
+
+
+

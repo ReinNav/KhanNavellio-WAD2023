@@ -20,8 +20,7 @@
 <script src="map.js"></script>
 
 <body>
-    <header>
-    <div class="container">
+    <div class="login-outer-container">
         <div class="login-container">
             <h1>Welcome to Berlin Klimaware</h1>
             <form id="login-form" class="input-form">
@@ -37,40 +36,83 @@
             </form>
         </div>
     </div>
-</header>
 
 
     <section name="main-screen">
-        <div class="flex-row" id="main-header">
-            <h3>Welcome, Reinardus!</h3>
-            <h1>Berlin Klimaware</h1>
-            <button class="btn secondary-btn">Logout</button>
-        </div>
+        <header>
+            <div class="flex-row" id="main-header">
+                <h3>Welcome, Reinardus!</h3>
+                <h1>Berlin Klimaware</h1>
+                <button class="btn secondary-btn">Logout</button>
+            </div>
+        </header>
+        
 
-        <div class="outer-container flex-column">
-            <div class="content-container flex-row">
-                <div class="flex-column" id="locations-side-bar">
+        <div class="outer-container flex-row">
+                <aside class="flex-column" id="locations-side-bar">
                     <p class="location-text">Standort 1</p>
                     <p class="location-text">Standort 2</p>
                     <p class="location-text">Standort 3</p>
-                </div>
+                </aside>
 
-                <div class="map-container">
-                    <div id="map"></div>
+                <div class="map-container flex-column">
+                    <div class="map-inner-container"> 
+                        <div id="map"></div>
+                    </div>
+                    <button class="btn primary-btn" id="add-btn">Add</button>
                 </div>
-                <button class="btn primary-btn">Add</button>
-            </div>
         </div>
             
             <footer>
-                <div class="container">
-                    <a href="#">Impressum</a> | <a href="#">Datenschutzerklärung</a>
+                <div class="footer-container flex-row">
+                    
+                    <div class="flex-column" id="inner-footer-1">
+                        
+                        <div id="project-desc">
+                            <p> "Klimaware" ist eine interaktive App, entwickelt von Studierenden der HTW Berlin. Sie kennzeichnet klimaschädliche Orte in Berlin-Brandenburg.</p>
+                            <p>Nutzerinnen und Nutzer sehen auf einer interaktiven Karte, welche Standorte aus klimatischer Sicht problematisch sind, um umweltbewusste Entscheidungen im Alltag zu treffen. </p>                           
+                            <p>Projekt im Rahmen der HTW Berlin. </p>
+
+                        </div>
+                    </div>
+
+                    <div class="flex-column" id="inner-footer-2">
+                        <div class="flex-row authors">
+                            <div class="author">
+                                <p id="author-name">Reinardus Navellio</p>
+                                <address>
+                                Matrikelnummer: 584456<br>
+                                B.Sc. AI, Fachbereich 4<br>
+                                HTW Berlin <br>
+                                john.doe@example.com
+                                </address>
+                            </div>
+
+                            <div class="author">
+                                <p id="author-name">Daniyal Khan</p>
+                                <address>
+                                Matrikelnummer: 584456<br>
+                                B.Sc. AI, Fachbereich 4<br>
+                                HTW Berlin<br>
+                                john.doe@example.com
+                                </address>
+                            </div>
+                            
+                          </div>
+
+                            <div class="flex-row" id="footer-links">
+                                <a href="/impressum">Impressum</a>
+                                <span class="separator">|</span>
+                                <a href="/datenschutz">Datenschutzerklärung</a>
+                            </div>
+                    </div>
+
+                    
+                    <image src="res/logo.png" alt="logo" id="logo"> </image>
                 </div>
             </footer>
         </div>
     </section>
-
-    <section name="add-screen"></section>
 
     <section name="update-delete-screen">
         <div class="flex-column">
@@ -78,22 +120,34 @@
             <form id="edit-location-form">
                 <div class="flex-column">
                     <label id="fname-label">Name</label>
-                    <input type="text" id="fname" value="Location 1"><br><br>
+                    <input type="text" id="fname" value="Location 1">
 
                     <label id="fdesc-label">Description</label>
-                    <input type="text" id="fdesc" value="Factory that produces very many toxic waste"><br><br>
+                    <input type="text" id="fdesc" value="Factory that produces very many toxic waste">
 
                     <label id="fstreet-label">Street</label>
-                    <input type="text" id="fstreet" value="Müllerstraße"><br><br>
-
-                    <label id="fstreetnumber-label">Street number</label>
-                    <input type="number" id="fstreetnumber" value="1"><br><br>
+                    <input type="text" id="fstreet" value="Müllerstraße">
 
                     <label id="fpostal-label">Postal code</label>
-                    <input type="number" id="fpostal" value="13350"><br><br>
+                    <input type="number" id="fpostal" value="13350">
+                    
+                    <label id="fcity-label">City</label>
+                    <input type="number" id="fcity" value="1">
+                    
+                    <label id="fcity-label">State</label>
+                    <select id="fstate" name="state">
+                        <option value="berlin">Berlin</option>
+                        <option value="brandenburg">Brandenburg</option>
+                    </select>
+
+                    <label id="flatitude-label">Latitude</label>
+                    <input type="number" id="flatitude-level" value="10">
+
+                    <label id="flongitude-label">Longitude</label>
+                    <input type="number" id="flongitude-level" value="10">
 
                     <label id="fpollution-level-label">Pollution level <br><span id="scale">(Scale from 1 to 10)</span></label>
-                    <input type="number" id="fpollution-level" value="10"><br><br>
+                    <input type="number" id="fpollution-level" value="10">
                 </div>
 
                 <div class="flex-row" id="form-btns-container">
