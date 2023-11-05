@@ -21,6 +21,8 @@
 
 <body>
     <section name="login-screen">
+        <image src="res/klimaware_logo.png" alt="logo" id="klimaware_logo"> </image>
+
         <div class="login-container">
             <form class="login-form">
                 <div class="form-inner-container">
@@ -53,10 +55,56 @@
 
         <div class="outer-container flex-row">
                 <aside class="flex-column" id="locations-side-bar">
-                    <h1>Locations</h1>
-                    <p class="location-text">Standort 1</p>
-                    <p class="location-text">Standort 2</p>
-                    <p class="location-text">Standort 3</p>
+                    <h1>Locations List</h1>
+                    <ul>
+                        <li>
+                            <div class="flex-row location-container">
+                                <div class="flex-column location-info">
+                                    <p class="location-title">Standort 1</p>
+                                    <p class="location-street">Müllerstraße 19</p>
+                                    <p class="location-city">Berlin</p>
+                                    <p class="location-level">Pollution level: 8/10</p>
+                                </div>
+                                
+                                <div class="location-img-container">
+                                    <image src="res/location_images/factory_stock_photo.jpeg"></image>
+                                </div>
+                            </div>
+                        </li>
+
+                        <li>
+                            <div class="flex-row location-container">
+                                <div class="flex-column location-info">
+                                    <p class="location-title">Standort 1</p>
+                                    <p class="location-street">Müllerstraße 19</p>
+                                    <p class="location-city">Berlin</p>
+                                    <p class="location-level">Pollution level: 8/10</p>
+                                </div>
+                                
+                                <div class="location-img-container">
+                                    <image src="res/location_images/factory_stock_photo.jpeg"></image>
+                                </div>
+                            </div>
+                        </li>
+
+                        <li>
+                            <div class="flex-row location-container">
+                                <div class="flex-column location-info">
+                                    <p class="location-title">Standort 1</p>
+                                    <p class="location-street">Müllerstraße 19</p>
+                                    <p class="location-city">Berlin</p>
+                                    <p class="location-level">Pollution level: 8/10</p>
+                                </div>
+                                
+                                <div class="location-img-container">
+                                    <image src="res/location_images/factory_stock_photo.jpeg"></image>
+                                </div>
+                            </div>
+                        </li>
+                        
+                        
+                    </ul>
+                    
                 </aside>
 
                 <div class="map-container flex-column">
@@ -170,9 +218,16 @@
                         </div>
                     </div>
 
-                    <div class="flex-column field">
-                        <label id="fpollution-level-label">Pollution level <span id="scale">(Scale from 1 to 10)</span></label>
-                        <input type="number" id="fpollution-level" value="10">
+                    <div class="flex-row double-field">
+                        <div class="flex-column field">
+                            <label id="fpollution-level-label">Pollution level <span id="scale">(1 to 10)</span></label>
+                            <input type="number" id="fpollution-level" value="10">
+                        </div>
+
+                        <div class="flex-column field">
+                            <label id="fimage-label">Upload image</label>
+                            <input type="file" id="fimage">
+                        </div>
                     </div>
                     
                     </div>
@@ -241,14 +296,18 @@
                         </div>
                     </div>
                     
-                    
-                    
-                    
-                    <div class="flex-column field">
-                        <label id="fpollution-level-label">Pollution level <span id="scale">(Scale from 1 to 10)</span></label>
-                        <input type="number" id="fpollution-level" value="10">
+                    <div class="flex-row double-field">
+                        <div class="flex-column field">
+                            <label id="fpollution-level-label">Pollution level <span id="scale">(1 to 10)</span></label>
+                            <input type="number" id="fpollution-level" value="10">
+                        </div>
+
+                        <div class="flex-column field">
+                            <label id="fimage-label">Change image</label>
+                            <input type="file" id="fimage">
+                        </div>
                     </div>
-                    
+   
                 </div>
                     
                     <div class="flex-column" id="form-btns-container">

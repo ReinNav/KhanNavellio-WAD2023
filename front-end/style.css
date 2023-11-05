@@ -6,15 +6,67 @@ body {
     color: white; /* Set text color to white for better visibility */
 }
 
+.flex-row {
+    display: flex;
+    flex-direction: row;
+}
+
+.flex-column {
+    display: flex;
+    flex-direction: column;
+}
+
+#klimaware_logo {
+    width: 300px;
+    height: 70px;
+    object-fit: cover;
+}
+.btn {
+    width: 80px;
+    color: white;
+    border: none;
+    border-radius: 15px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn.primary-btn {
+    background-color: #b7161d;
+}
+
+.btn.secondary-btn {
+    background-color: #b7161e93;
+}
+
+.btn:hover {
+    background-color: #8b0000; 
+}
+
+
 section {
+    padding-top: 30px;
     min-height: 600px;
-    max-height: 800px;
 }
 
 section[name="login-screen"] {
     display: flex;
     justify-content: center;
     align-items: center;
+    height: 100%;
+}
+
+section[name="login-screen"] #klimaware_logo {
+    position: absolute; 
+    top: 10px; 
+    left: 10px; 
+    width: 300px;
+    height: 70px; 
+    object-fit: cover;
+}
+
+.login-form {
+    margin: 0 auto;
 }
 
 .login-form h1 {
@@ -46,55 +98,6 @@ section[name="login-screen"] {
     justify-content: space-between;
 }
 
-#klimaware_logo {
-    width: 300px;
-    height: 70px;
-    object-fit: cover;
-}
-
-.input-group {
-    margin-bottom: 15px;
-}
-
-/* Update input label styles */
-.input-group label {
-    color: #333; /* Set input label color to dark gray */
-    margin-bottom: 5px;
-    display: block;
-}
-
-.btn {
-    width: 80px;
-    color: white;
-    border: none;
-    border-radius: 15px;
-    padding: 10px 20px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.btn.btn.primary-btn {
-    background-color: #b7161d;
-}
-
-.btn.secondary-btn {
-    background-color: #b7161e93;
-}
-
-.btn:hover {
-    background-color: #8b0000; /* Darker maroon color on hover */
-}
-
-.flex-row {
-    display: flex;
-    flex-direction: row;
-}
-
-.flex-column {
-    display: flex;
-    flex-direction: column;
-}
-
 .outer-container {
     align-items: flex-start;
     height: 550px;
@@ -105,7 +108,69 @@ section[name="login-screen"] {
     height: 100%;
     align-items: center;
     justify-content: flex-start;
-    background-color: #333;
+    border-right: solid 3px grey;
+}
+
+#locations-side-bar ul {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    width: 100%;
+    list-style-type: none;
+}
+
+#locations-side-bar li {
+    padding-top: 15px;
+    width: 100%;
+    border-bottom: 1px solid grey;
+}
+
+#locations-side-bar li:hover {
+    background-color: #0e2231;
+    cursor: pointer;
+}
+
+.location-img-container {
+    width: 60px;
+    height: 60px;
+}
+
+.location-img-container img {
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    object-fit: cover;
+}
+
+.location-container {
+    justify-content: space-between;
+    padding: 0 15px;
+    margin-bottom: 10px;
+    text-align: left;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.location-container p {
+    margin: 3px;
+    font-size: 10px; 
+}
+
+p.location-title {
+    font-weight: 700;
+    font-size: 15px;
+}
+
+p.location-level {
+    margin-top: 8px;
+}
+
+#locations-side-bar h1 {
+    text-align: center;
+    width: 100%;
+    padding-bottom: 5px;
+    margin-bottom: 0px;
+    border-bottom: solid 3px white;
 }
 
 .map-container {
@@ -115,8 +180,8 @@ section[name="login-screen"] {
 }
 
 #map {
-    height: 100%; /* Set the map height to fill the container */
-    width: 100%; /* Set the map width to fill the container */
+    height: 100%; 
+    width: 100%; 
     border-radius: 20px;
 }
 
@@ -133,9 +198,9 @@ section[name="login-screen"] {
     border-radius: 20px;
 }
 
-/* Add hover effect to the login button */
+
 .btn.primary-btn:hover {
-    background-color: #8b0000; /* Darker maroon color on hover */
+    background-color: #8b0000; 
 }
 
 #form-btns-container {
@@ -197,7 +262,7 @@ a {
     border-radius: 10px;
     text-align: left;
     transition: all 0.3s ease;
-    margin: 0 auto; /* Center the container horizontally */
+    margin: 0 auto; 
 }
 
 .location-form {
@@ -256,6 +321,10 @@ a {
     width: 300px;
 }
 
+#fimage {
+    padding: 6px
+}
+
 #form-btns-container .flex-row {
     justify-content: space-around;
 } 
@@ -266,6 +335,11 @@ a {
     color: rgb(237, 18, 18);
     margin-top: 20px;
     font-size: 10px;
+}
+
+.delete-btn:hover {
+    text-decoration: underline;
+    cursor: pointer;
 }
 
 
