@@ -20,22 +20,25 @@
 <script src="map.js"></script>
 
 <body>
-    <div class="login-outer-container">
+    <section name="login-screen">
         <div class="login-container">
-            <h1>Welcome to Berlin Klimaware</h1>
-            <form id="login-form" class="input-form">
-                <div class="input-group">
-                    <label for="username">Username:</label>
-                    <input type="text" id="username" required>
+            <form class="login-form">
+                <div class="form-inner-container">
+                    <h1>Login</h1>
+                    <div class="flex-column field">
+                        <label for="username">Username:</label>
+                        <input type="text" id="username" required>
+                    </div>
+                    <div class="flex-column field">
+                        <label for="password">Password:</label>
+                        <input type="password" id="password" required>
+                    </div>
+                    <button type="submit" class="btn primary-btn">Login</button>
                 </div>
-                <div class="input-group">
-                    <label for="password">Password:</label>
-                    <input type="password" id="password" required>
-                </div>
-                <button type="submit" class="btn primary-btn">Login</button>
             </form>
         </div>
-    </div>
+    </section>
+    
 
 
     <section name="main-screen">
@@ -50,6 +53,7 @@
 
         <div class="outer-container flex-row">
                 <aside class="flex-column" id="locations-side-bar">
+                    <h1>Locations</h1>
                     <p class="location-text">Standort 1</p>
                     <p class="location-text">Standort 2</p>
                     <p class="location-text">Standort 3</p>
@@ -125,7 +129,7 @@
                     
                     <div class="flex-column field">
                         <label id="fdesc-label">Description</label>
-                        <input type="text" id="fdesc" value="Factory that produces very many toxic waste">
+                        <textarea rows="5">Factory that produces very many toxic waste</textarea>
                     </div>
                     
                     <div class="flex-row double-field">
@@ -195,8 +199,9 @@
                     
                     <div class="flex-column field">
                         <label id="fdesc-label">Description</label>
-                        <input type="text" id="fdesc" value="Factory that produces very many toxic waste">
+                        <textarea rows="5">Factory that produces very many toxic waste</textarea>
                     </div>
+                    
                     
                     <div class="flex-row double-field">
                         <div class="flex-column field" id="street">

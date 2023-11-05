@@ -7,13 +7,33 @@ body {
 }
 
 section {
-    height: 90vw;
+    min-height: 600px;
+    max-height: 800px;
 }
 
-.login-outer-container {
-    color: white;
-    padding-left: 15px;
+section[name="login-screen"] {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-form h1 {
+    margin-top: 0;
+    font-size: 28px;
     text-align: center;
+}
+
+.login-form button {
+    width: 100%;
+}
+
+.login-form .form-inner-container {
+    width: 250px;
+    margin: 0 auto;
+}
+
+.login-form {
+    width: 400px;
 }
 
 #main-header {
@@ -77,7 +97,7 @@ section {
 
 .outer-container {
     align-items: flex-start;
-    height: 400px;
+    height: 550px;
 }
 
 #locations-side-bar {
@@ -89,14 +109,15 @@ section {
 }
 
 .map-container {
-    padding-bottom: 20px;
-    width: 70%;
-    height: 400px;
+    padding: 20px;
+    width: 100%;
+    height: 500px;
 }
 
 #map {
     height: 100%; /* Set the map height to fill the container */
     width: 100%; /* Set the map width to fill the container */
+    border-radius: 20px;
 }
 
 #add-btn {
@@ -109,28 +130,7 @@ section {
     width: 100%;
     height: 100%;
     background-color: #ddd;
-}
-
-.login-container {
-    background-color: #f0f0f0;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    transition: all 0.3s ease;
-    max-width: 400px; /* Set maximum width for the container */
-    margin: 0 auto; /* Center the container horizontally */
-}
-
-/* Set text color inside the login container */
-.login-container h1 {
-    color: #333; /* Set a different color for the text */
-}
-
-/* Add hover effect to the login container */
-.login-container:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
+    border-radius: 20px;
 }
 
 /* Add hover effect to the login button */
@@ -156,10 +156,10 @@ section {
 }
 
 footer {
-    background-color: #333;
+    background-color: #040a0f;
     color: white;
     text-align: center;
-    padding: 10px 30px;
+    padding: 10px 60px;
 }
 
 #inner-footer-1, #inner-footer-2 {
@@ -188,12 +188,11 @@ a {
     color: lightblue;
 }
 
-.location-form {
+.location-form, .login-form {
     padding-top: 20px;
     padding-bottom: 30px;
     font-size: 12px;
     border: solid 1px grey;
-    width: 500px;
     background-color: transparent;
     border-radius: 10px;
     text-align: left;
@@ -201,11 +200,15 @@ a {
     margin: 0 auto; /* Center the container horizontally */
 }
 
+.location-form {
+    width: 500px;
+}
+
 .location-form h1 {
     text-align: center;
 }
 
-.form-inner-container {
+.location-form .form-inner-container {
     width: 350px;
     margin: 0 auto;
 }
@@ -216,9 +219,10 @@ a {
     margin-bottom: 15px;
 }
 
-.form-inner-container input, .form-inner-container select {
-    width: 100%; /* Set the input fields to 100% width */
-    height: 15px; /* Add some space between input fields */
+.form-inner-container input, .form-inner-container select,
+.form-inner-container textarea {
+    box-sizing: border-box;
+    width: 100%;
     margin-top: 5px;
     color: white;
     background-color: #2c3942;
@@ -227,16 +231,25 @@ a {
     padding: 8px;
 }
 
+.form-inner-container textarea {
+    font-family: 'Roboto', sans-serif;
+    height: 50px;
+}
+
 .location-form select {
     padding: 8px;
     height: 33px;
 }
 
 .double-field {
-    width: 100%;
     justify-content: space-between;
-    gap: 25px;
+    gap: 10px;
 }
+
+.field#state, .field#city,
+.field#street, .field#postal {
+    flex: 1;
+} 
 
 #form-btns-container {
     margin: 0 auto;
