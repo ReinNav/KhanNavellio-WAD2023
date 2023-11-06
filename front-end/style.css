@@ -1,3 +1,5 @@
+/* GENERAL STYLES */
+
 body {
     font-family: 'Roboto', sans-serif;
     background-color: #0a1823;
@@ -21,6 +23,7 @@ body {
     height: 70px;
     object-fit: cover;
 }
+
 .btn {
     width: 80px;
     color: white;
@@ -64,6 +67,7 @@ section[name="login-screen"] #klimaware_logo {
     object-fit: cover;
 }
 
+/* LOGIN SCREEN STYLES */
 .login-form #login-heading {
     margin-top: 0;
     font-size: 28px;
@@ -83,6 +87,7 @@ section[name="login-screen"] #klimaware_logo {
     width: 400px;
 }
 
+/* MAIN SCREEN STYLES */
 #main-header {
     background-color: #060f1656;
     color: white;
@@ -197,14 +202,6 @@ p.location-level {
     border-radius: 20px;
 }
 
-.btn.primary-btn:hover {
-    background-color: #8b0000; 
-}
-
-#form-btns-container {
-    justify-content: space-between;
-}
-
 .footer-container {
     align-items: flex-start;
     text-align: left;
@@ -249,6 +246,11 @@ footer {
 
 #footer-links a {
     color: lightblue;
+}
+
+/* ADD + UPDATE SCREEN STYLES */
+#form-btns-container {
+    justify-content: space-between;
 }
 
 .location-form, .login-form {
