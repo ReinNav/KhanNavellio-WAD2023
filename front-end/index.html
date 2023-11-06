@@ -30,7 +30,7 @@
         <div class="login-container">
             <form class="login-form">
                 <div class="form-inner-container">
-                    <h1>Login</h1>
+                    <h1 id="login-heading">Login</h1>
                     <div class="flex-column field">
                         <label for="username">Username:</label>
                         <input type="text" id="username" required>
@@ -57,9 +57,9 @@
         </header>
         
 
-        <div class="outer-container flex-row">
+        <div class="main-outer-container flex-row">
                 <aside class="flex-column" id="locations-side-bar">
-                    <h1>Locations List</h1>
+                    <h1 id="list-heading">Locations List</h1>
                     <ul>
                         <li>
                             <div class="flex-row location-container">
@@ -81,7 +81,7 @@
                             <div class="flex-row location-container">
                                 <div class="flex-column location-info">
                                     <p class="location-title">Tesla Giga Factory</p>
-                                    <p class="location-street">Tesla Straße 1, 15537 Grünheide</p>
+                                    <p class="location-street">Tesla Straße 1</p>
                                     <p class="location-city">Grünheide (Mark), Brandenburg</p>
                                     <p class="location-level">Pollution level: 6/10</p>
                                 </div>
@@ -103,7 +103,7 @@
                                 </div>
                                 
                                 <div class="location-img-container">
-                                    <image src="res/location_images/factory_stock_photo.jpeg"></image>
+                                    <image src="res/location_images/kiez_sample_image.jpeg"></image>
                                 </div>
                             </div>
                         </li>
@@ -127,7 +127,7 @@
                     <div class="flex-column" id="inner-footer-1">
                         
                         <div id="project-desc">
-                            <p> "Klimaware" ist eine interaktive App, entwickelt von Studierenden der HTW Berlin. Sie kennzeichnet klimaschädliche Orte in Berlin-Brandenburg.</p>
+                            <p> "Klimaware" ist eine interaktive Webseite, entwickelt von Studierenden der HTW Berlin. Sie kennzeichnet klimaschädliche Orte in Berlin-Brandenburg.</p>
                             <p>Nutzerinnen und Nutzer sehen auf einer interaktiven Karte, welche Standorte aus klimatischer Sicht problematisch sind, um umweltbewusste Entscheidungen im Alltag zu treffen. </p>                           
                             <p>Projekt im Rahmen der HTW Berlin. </p>
 
@@ -149,7 +149,7 @@
                             <div class="author">
                                 <p id="author-name">Daniyal Khan</p>
                                 <address>
-                                Matrikelnummer: 584456<br>
+                                Matrikelnummer: 582859<br>
                                 B.Sc. AI, Fachbereich 4<br>
                                 HTW Berlin<br>
                                 john.doe@example.com
@@ -175,60 +175,59 @@
         <div class="flex-column">
             <form class="location-form">
                 <div class="form-inner-container">
-                    <h1>Add a new location</h1>
+                    <h1 id="form-title">Add a new location</h1>
                     <div class="flex-column field">
                         <label id="fname-label">Name</label>
-                        <input type="text" id="fname" value="Zigarettenfabrik">
+                        <input type="text" id="fname" placeholder="Name of place" required>
                     </div>
                     
                     <div class="flex-column field">
                         <label id="fdesc-label">Description</label>
-                        <textarea rows="5">Factory that produces very many toxic waste</textarea>
+                        <textarea rows="5" placeholder="Description of place"></textarea>
                     </div>
                     
-                    <div class="flex-row double-field">
-                        <div class="flex-column field" id="street">
+                    <div class="flex-row">
+                        <div class="flex-column field first-half" id="street">
                             <label id="fstreet-label">Street</label>
-                            <input type="text" id="fstreet" value="Rietzer Berg 28
-                            Kloster Lenin">
+                            <input type="text" id="fstreet" placeholder="Street" required>
                         </div>
 
                         <div class="flex-column field" id="postal">
                             <label id="fpostal-label">Postal code</label>
-                            <input type="number" id="fpostal" value="14797">
+                            <input type="number" id="fpostal" placeholder="Postal Code" required>
                         </div>
                     </div>
                     
-                    <div class="flex-row double-field">
-                        <div class="flex-column field" id="city">
+                    <div class="flex-row">
+                        <div class="flex-column field first-half" id="city">
                             <label id="fcity-label">City</label>
-                            <input type="text" id="fcity" value="Brandenburg">
+                            <input type="text" id="fcity" placeholder="City" required>
                         </div>
 
-                        <div class="flex-column field" id="state">
+                        <div class="flex-column field">
                             <label id="fstate-label">State</label>
-                            <select id="fstate" name="state">
+                            <select id="fstate" name="state" required>
                                 <option value="berlin">Berlin</option>
                                 <option value="brandenburg">Brandenburg</option>
                             </select>
                         </div>
                     </div>
                     
-                    <div class="flex-row double-field">
-                        <div class="flex-column field">
+                    <div class="flex-row">
+                        <div class="flex-column field first-half" id="lat">
                             <label id="flatitude-label">Latitude</label>
-                            <input type="number" id="flatitude-level" value="12.610102564424093">
+                            <input type="number" id="flatitude-level" placeholder="Latitude">
                         </div>
                         <div class="flex-column field">
                             <label id="flongitude-label">Longitude</label>
-                            <input type="number" id="flongitude-level" value="52.5573155">
+                            <input type="number" id="flongitude-level" placeholder="Longitude">
                         </div>
                     </div>
 
-                    <div class="flex-row double-field">
-                        <div class="flex-column field">
+                    <div class="flex-row">
+                        <div class="flex-column field first-half">
                             <label id="fpollution-level-label">Pollution level <span id="scale">(1 to 10)</span></label>
-                            <input type="number" id="fpollution-level" value="7">
+                            <input type="number" id="fpollution-level" placeholder="Pollution level">
                         </div>
 
                         <div class="flex-column field">
@@ -253,64 +252,64 @@
             
             <form class="location-form">
                 <div class="form-inner-container">
-                    <h1>Edit location 1</h1>
+                    <h1 id="form-title">Edit location</h1>
                     <div class="flex-column field">
                         <label id="fname-label">Name</label>
-                        <input type="text" id="fname" value="Tesla Giga Factory">
+                        <input type="text" id="fname" value="Tesla Giga Factory" required>
                     </div>
                     
                     <div class="flex-column field">
                         <label id="fdesc-label">Description</label>
-                        <textarea rows="5">Factory that produces very many toxic waste</textarea>
+                        <textarea rows="5">This factory consumes way too many water than sustainable.</textarea>
                     </div>
                     
                     
-                    <div class="flex-row double-field">
-                        <div class="flex-column field" id="street">
+                    <div class="flex-row">
+                        <div class="flex-column field first-half" id="street">
                             <label id="fstreet-label">Street</label>
-                            <input type="text" id="fstreet" value="Tesla Straße 1, Grünheide">
+                            <input type="text" id="fstreet" value="Tesla Straße 1" required>
                         </div>
 
                         <div class="flex-column field" id="postal">
                             <label id="fpostal-label">Postal code</label>
-                            <input type="number" id="fpostal" value="15537">
+                            <input type="number" id="fpostal" value="15537" required>
                         </div>
                     </div>
                     
-                    <div class="flex-row double-field">
-                        <div class="flex-column field" id="city">
+                    <div class="flex-row">
+                        <div class="flex-column field first-half" id="city">
                             <label id="fcity-label">City</label>
-                            <input type="text" id="fcity" value="Berlin-Brandenburg">
+                            <input type="text" id="fcity" value="Grünheide (Mark)" required>
                         </div>
 
-                        <div class="flex-column field" id="state">
+                        <div class="flex-column field">
                             <label id="fstate-label">State</label>
                             <select id="fstate" name="state">
-                                <option value="berlin">Berlin</option>
                                 <option value="brandenburg">Brandenburg</option>
+                                <option value="berlin">Berlin</option>
                             </select>
                         </div>
                     </div>
                     
-                    <div class="flex-row double-field">
-                        <div class="flex-column field">
+                    <div class="flex-row">
+                        <div class="flex-column field first-half" id="lat">
                             <label id="flatitude-label">Latitude</label>
-                            <input type="number" id="flatitude-level" value="13.7892">
+                            <input type="number" id="flatitude-level" value="52.3928">
                         </div>
                         <div class="flex-column field">
                             <label id="flongitude-label">Longitude</label>
-                            <input type="number" id="flongitude-level" value="52.3928">
+                            <input type="number" id="flongitude-level" value="13.7892">
                         </div>
                     </div>
-                    
-                    <div class="flex-row double-field">
-                        <div class="flex-column field">
+
+                    <div class="flex-row">
+                        <div class="flex-column field first-half">
                             <label id="fpollution-level-label">Pollution level <span id="scale">(1 to 10)</span></label>
-                            <input type="number" id="fpollution-level" value="10">
+                            <input type="number" id="fpollution-level" value="7">
                         </div>
 
                         <div class="flex-column field">
-                            <label id="fimage-label">Change image</label>
+                            <label id="fimage-label">Upload image</label>
                             <input type="file" id="fimage">
                         </div>
                     </div>
@@ -323,7 +322,7 @@
                             <input class="btn primary-btn" type="submit" value="Submit">
                         </div>
                         
-                        <button class="delete-btn">delete this location instead</button>
+                        <button class="delete-btn">Delete</button>
                     </div>
                 
             </form>
