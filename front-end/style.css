@@ -43,7 +43,6 @@ body {
     background-color: #8b0000; 
 }
 
-
 section {
     padding-top: 30px;
     min-height: 600px;
@@ -151,7 +150,11 @@ section[name="login-screen"] #klimaware_logo {
     box-sizing: border-box;
 }
 
-.location-container p {
+.location-info {
+    max-width: 140px;
+}
+
+.location-info p {
     margin: 3px;
     font-size: 10px; 
 }
@@ -221,7 +224,7 @@ p.location-level {
 }
 
 footer {
-    background-color: #040a0f;
+    background-color: #2c3942 ;
     color: white;
     text-align: center;
     padding: 10px 60px;
@@ -249,7 +252,7 @@ footer {
     gap: 15px;
 }
 
-a {
+#footer-links a {
     color: lightblue;
 }
 
