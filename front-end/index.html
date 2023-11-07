@@ -198,7 +198,7 @@
 
                         <div class="flex-column field" id="postal">
                             <label id="fpostal-label">Postal code</label>
-                            <input type="number" id="fpostal" placeholder="Postal Code" required>
+                            <input type="number" id="fpostal" placeholder="Postal Code" min="0" required>
                         </div>
                     </div>
                     
@@ -231,7 +231,7 @@
                     <div class="flex-row">
                         <div class="flex-column field first-half">
                             <label id="fpollution-level-label">Pollution level <span id="scale">(1 to 10)</span></label>
-                            <input type="number" id="fpollution-level" placeholder="Pollution level">
+                            <input type="number" id="fpollution-level" placeholder="Pollution level" min="1" max="10">
                         </div>
 
                         <div class="flex-column field">
@@ -277,7 +277,7 @@
 
                         <div class="flex-column field" id="postal">
                             <label id="fpostal-label">Postal code</label>
-                            <input type="number" id="fpostal" value="15537" required>
+                            <input type="number" id="fpostal" value="15537" min="0" required>
                         </div>
                     </div>
                     
@@ -310,7 +310,7 @@
                     <div class="flex-row">
                         <div class="flex-column field first-half">
                             <label id="fpollution-level-label">Pollution level <span id="scale">(1 to 10)</span></label>
-                            <input type="number" id="fpollution-level" value="7">
+                            <input type="number" id="fpollution-level" value="7" min="1" max="10">
                         </div>
 
                         <div class="flex-column field">
