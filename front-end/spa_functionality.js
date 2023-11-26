@@ -47,13 +47,13 @@ function handleRoleSpecificFunctionality(username, role) {
 // Add logout functionality
 function logout() {
     hideAllSections();
-    document.querySelector('section[name="login-screen"]').style.display = 'block';
+    document.querySelector('section[name="login-screen"]').style.display = 'flex';
 }
 
 // Attach event listeners after the DOM is fully loaded
 document.addEventListener('DOMContentLoaded', function() {
     hideAllSections();
-    document.querySelector('section[name="login-screen"]').style.display = 'block';
+    document.querySelector('section[name="login-screen"]').style.display = 'flex';
 
     const loginForm = document.querySelector('.login-form');
     if (loginForm) {
