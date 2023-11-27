@@ -22,6 +22,11 @@ document.addEventListener('DOMContentLoaded', function() {
         logoutButton.onclick = goToLoginScreen;
     }
 
+    const cancelButton = document.getElementById('cancel-btn');
+    if (cancelButton) {
+        cancelButton.onclick = goToMainScreen;
+    }
+
     document.getElementById('add-location-form').addEventListener('submit', function(event) {
         event.preventDefault();
         var formData = collectFormSubmission();
