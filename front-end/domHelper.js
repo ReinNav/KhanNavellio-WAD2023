@@ -22,12 +22,17 @@ const asNonAdmin = () => {
 
 const goToAddScreen = () => {
     hideAllSections();
-    document.querySelector('section[name="add-screen"]').style.display = 'block';
+    document.getElementById('add-screen').style.display = 'block';
 }
 
 const goToMainScreen = () => {
     hideAllSections();
-    document.querySelector('section[name="main-screen"]').style.display = 'block';
+    document.getElementById('main-screen').style.display = 'block';
+}
+
+const goToLoginScreen = () => {
+    hideAllSections();
+    document.getElementById('login-screen').style.display = 'flex';
 }
 
 const collectFormSubmission = () => {
@@ -52,6 +57,7 @@ export {
     asNonAdmin,
     goToAddScreen,
     goToMainScreen,
+    goToLoginScreen,
     hideAllSections,
     collectFormSubmission
 }

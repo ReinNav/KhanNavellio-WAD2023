@@ -1,4 +1,4 @@
-import { asAdmin, asNonAdmin, hideAllSections, goToAddScreen, goToMainScreen } from "./domHelper.js";
+import { asAdmin, asNonAdmin, goToLoginScreen, goToAddScreen, goToMainScreen } from "./domHelper.js";
 
 // User credentials
 const admina = {username: "admina", password: "password", role:"admin"};
@@ -35,10 +35,4 @@ function handleRoleSpecificFunctionality(username, role) {
     } else {
         asNonAdmin();
     }
-}
-
-// Add logout functionality
-export function logout() {
-    hideAllSections();
-    document.querySelector('section[name="login-screen"]').style.display = 'flex';
 }

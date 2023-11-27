@@ -1,13 +1,12 @@
-import { login, logout } from './spa_functionality.js';
-import { collectFormSubmission, hideAllSections } from './domHelper.js';
+import { login } from './spa_functionality.js';
+import { collectFormSubmission, goToLoginScreen, goToMainScreen } from './domHelper.js';
 import { geocodeAddress } from './geoservice.js';
 import { addLocation, initializeMap } from "./map.js";
 
 document.addEventListener('DOMContentLoaded', function() {
     // Hide all sections except login
     initializeMap();
-    hideAllSections();
-    document.querySelector('section[name="login-screen"]').style.display = 'flex';
+    goToLoginScreen();
 
     // Setup login form submission
     const loginForm = document.querySelector('.login-form');
@@ -20,7 +19,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const logoutButton = document.querySelector('.btn.secondary-btn');
     if (logoutButton) {
-        logoutButton.onclick = logout;
+        logoutButton.onclick = goToLoginScreen;
     }
 
     document.getElementById('add-location-form').addEventListener('submit', function(event) {
@@ -31,12 +30,12 @@ document.addEventListener('DOMContentLoaded', function() {
         geocodeAddress(fullAddress)
             .then(latLng => {
               formData.lat = latLng.lat;
-              formData.lng = latLng.lng  
-              addLocation(formData)
-              hideAllSections();
-              document.querySelector('section[name="main-screen"]').style.display = 'block';
+              formData.lng = latLng.lng;  
+              addLocation(formData);
+              goToMainScreen();
             })
             .catch(error => {
+                console.log(error.message);
               alert('Geocoding failed. Please check and try the input again.');
             });
     });

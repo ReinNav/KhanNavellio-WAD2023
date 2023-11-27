@@ -51,14 +51,14 @@ section {
     min-height: 600px;
 }
 
-section[name="login-screen"] {
+#login-screen {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100%;
 }
 
-section[name="login-screen"] #klimaware_logo {
+#login-screen #klimaware_logo {
     position: absolute; 
     top: 10px; 
     left: 10px; 

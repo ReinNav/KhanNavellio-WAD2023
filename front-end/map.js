@@ -7,7 +7,7 @@ var map = L.mapquest.map('map', {
 });
 
 function addLocation(formData) {
-    const { name, street, postalCode, city, state, lat, long, pollutionLevel} = formData;
+    const { name, street, postalCode, city, state, lat, lng, pollutionLevel} = formData;
 
     const locationItem = document.createElement('li');
     locationItem.innerHTML = `
@@ -28,7 +28,7 @@ function addLocation(formData) {
     const locationsList = document.querySelector('#locations-side-bar ul');
     locationsList.appendChild(locationItem);
 
-    addPinpointToMap(lat, long, name);
+    addPinpointToMap(lat, lng, name);
 }
 
 function addPinpointToMap(lat, lng, name) {
