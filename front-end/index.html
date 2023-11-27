@@ -21,9 +21,7 @@
     <!-- Mapquest JS -->
     <script src="https://www.mapquestapi.com/sdk/leaflet/v2.2/mq-map.js?key=BTjR7udbEih1QrCTjZUq7w1m25Eket6l"></script>
     <script src="https://api.mqcdn.com/sdk/mapquest-js/v1.3.2/mapquest.js"></script>
-    <script src="map.js"></script>
-    <script src="spa_functionality.js"></script>
-
+    <script type="module" src="index.js"></script>
 </head>
 
 
@@ -177,9 +175,9 @@
     </section>
     
     <!-- Add screen -->
-    <section name="Add-Screen">
+    <section name="add-screen">
         <div class="flex-column">
-            <form class="location-form">
+            <form class="location-form" id="add-location-form">
                 <div class="form-inner-container">
                     <h1 id="form-title">Add a new location</h1>
                     <div class="flex-column field">
@@ -222,11 +220,11 @@
                     <div class="flex-row">
                         <div class="flex-column field first-half" id="lat">
                             <label id="flatitude-label">Latitude</label>
-                            <input type="number" id="flatitude-level" placeholder="Latitude">
+                            <input type="number" id="flatitude" placeholder="Latitude">
                         </div>
                         <div class="flex-column field">
                             <label id="flongitude-label">Longitude</label>
-                            <input type="number" id="flongitude-level" placeholder="Longitude">
+                            <input type="number" id="flongitude" placeholder="Longitude">
                         </div>
                     </div>
 
@@ -257,7 +255,7 @@
     <section name="update-delete-screen">
         <div class="flex-column">
             
-            <form class="location-form">
+            <form class="location-form" id="update-location-form">
                 <div class="form-inner-container">
                     <h1 id="form-title">Edit location</h1>
                     <div class="flex-column field">
@@ -301,11 +299,11 @@
                     <div class="flex-row">
                         <div class="flex-column field first-half" id="lat">
                             <label id="flatitude-label">Latitude</label>
-                            <input type="number" id="flatitude-level" value="52.3928">
+                            <input type="number" id="flatitude" value="52.3928">
                         </div>
                         <div class="flex-column field">
                             <label id="flongitude-label">Longitude</label>
-                            <input type="number" id="flongitude-level" value="13.7892">
+                            <input type="number" id="flongitude" value="13.7892">
                         </div>
                     </div>
 

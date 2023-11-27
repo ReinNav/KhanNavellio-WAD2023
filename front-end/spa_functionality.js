@@ -1,30 +1,22 @@
-// spa_functionality.js
-
-// Hide all sections except the login screen on initial page load
-function hideAllSections() {
-    document.querySelectorAll('section').forEach(section => {
-        section.style.display = 'none';
-    });
-
-}
+import { asAdmin, asNonAdmin, hideAllSections, goToAddScreen, goToMainScreen } from "./domHelper.js";
 
 // User credentials
-const users = {
-    admina: { password: 'password', role: 'admin' },
-    normalo: { password: 'password', role: 'user' }
-};
+const admina = {username: "admina", password: "password", role:"admin"};
+const normalo = {username: "normalo", password: "password", role:"non-admin"};
 
 // Login function
-function login() {
+export function login() {
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
 
-    if (users[username] && users[username].password === password) {
-        hideAllSections();
-        document.querySelector('section[name="main-screen"]').style.display = 'block';
-        handleRoleSpecificFunctionality(username, users[username].role);
+    if (username === admina.username && password === admina.password) {
+        goToMainScreen();
+        handleRoleSpecificFunctionality(username, 'admin');
+    } else if (username === normalo.username && password === normalo.password) {
+        goToMainScreen();
+        handleRoleSpecificFunctionality(username, 'non-admin');
     } else {
-        alert('Invalid credentials!');
+        alert('Invalid credentials!')
     }
 
     return false; // Prevent form submission
@@ -38,37 +30,15 @@ function handleRoleSpecificFunctionality(username, role) {
     }
 
     if (role === 'admin') {
-        document.querySelector('#add-btn').style.display = 'block';
+        asAdmin();
+        document.getElementById('add-btn').onclick = goToAddScreen;
     } else {
-        document.querySelector('#add-btn').style.display = 'none';
+        asNonAdmin();
     }
 }
 
 // Add logout functionality
-function logout() {
+export function logout() {
     hideAllSections();
     document.querySelector('section[name="login-screen"]').style.display = 'flex';
 }
-
-// Attach event listeners after the DOM is fully loaded
-document.addEventListener('DOMContentLoaded', function() {
-    hideAllSections();
-    document.querySelector('section[name="login-screen"]').style.display = 'flex';
-
-    const loginForm = document.querySelector('.login-form');
-    if (loginForm) {
-        loginForm.onsubmit = function(event) {
-            event.preventDefault();
-            login();
-        };
-    } else {
-        console.error("Login form not found");
-    }
-
-    const logoutButton = document.querySelector('.btn.secondary-btn');
-    if (logoutButton) {
-        logoutButton.onclick = logout;
-    } else {
-        console.error("Logout button not found");
-    }
-});
