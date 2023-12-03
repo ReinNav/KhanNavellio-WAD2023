@@ -1,4 +1,4 @@
-import { asAdmin, asNonAdmin, goToLoginScreen, goToAddScreen, goToMainScreen } from "./domHelper.js";
+import { asAdmin, asNonAdmin, goToUpdateScreen, goToAddScreen, goToMainScreen } from "./domHelper.js";
 
 // User credentials
 const admina = {username: "admina", password: "password", role:"admin"};
@@ -32,6 +32,10 @@ function handleRoleSpecificFunctionality(username, role) {
     if (role === 'admin') {
         asAdmin();
         document.getElementById('add-btn').onclick = goToAddScreen;
+        var locations = document.querySelectorAll('.location-li-item');
+        locations.forEach(function(location) {
+            location.onclick = goToUpdateScreen;
+        });
     } else {
         asNonAdmin();
     }

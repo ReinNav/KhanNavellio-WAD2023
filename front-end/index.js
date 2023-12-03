@@ -1,7 +1,7 @@
 import { login } from './spa_functionality.js';
 import { collectFormSubmission, goToLoginScreen, goToMainScreen } from './domHelper.js';
 import { geocodeAddress } from './geoservice.js';
-import { addLocation, initializeMap } from "./map.js";
+import { addLocation, initializeMap, updateLocation } from "./map.js";
 
 document.addEventListener('DOMContentLoaded', function() {
     // Hide all sections except login
@@ -22,11 +22,6 @@ document.addEventListener('DOMContentLoaded', function() {
         logoutButton.onclick = goToLoginScreen;
     }
 
-    const cancelButton = document.getElementById('cancel-btn');
-    if (cancelButton) {
-        cancelButton.onclick = goToMainScreen;
-    }
-
     document.getElementById('add-location-form').addEventListener('submit', function(event) {
         event.preventDefault();
         var formData = collectFormSubmission();
@@ -40,7 +35,7 @@ document.addEventListener('DOMContentLoaded', function() {
               goToMainScreen();
             })
             .catch(error => {
-                console.log(error.message);
+              console.log(error.message);
               alert('Geocoding failed. Please check and try the input again.');
             });
     });

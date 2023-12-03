@@ -1,3 +1,17 @@
+let zigarettenfabrik = {
+    name: "Zigarettenfabrik",
+    desc: "A factory that produces harmful products with harmful chemical processes to the environment.", 
+    street: "Rietzer Berg 28",
+    postalCode: "14797", 
+    city: "Kloster Lenin",
+    state: "brandenburg",
+    lat: "52.38300635",
+    lng: "12.610102564424093",
+    pollutionLevel: "7"
+   };
+
+var locations = [zigarettenfabrik];
+
 L.mapquest.key = 'BTjR7udbEih1QrCTjZUq7w1m25Eket6l';
 
 var map = L.mapquest.map('map', {
@@ -6,10 +20,11 @@ var map = L.mapquest.map('map', {
     zoom: 9 
 });
 
-function addLocation(formData) {
-    const { name, street, postalCode, city, state, lat, lng, pollutionLevel} = formData;
+function addLocation(newLocation) {
+    const { name, street, postalCode, city, state, lat, lng, pollutionLevel} = newLocation;
 
     const locationItem = document.createElement('li');
+    locationItem.className = "location-li-item";
     locationItem.innerHTML = `
         <div class="flex-row location-container">
             <div class="flex-column location-info">
@@ -29,6 +44,7 @@ function addLocation(formData) {
     locationsList.appendChild(locationItem);
 
     addPinpointToMap(lat, lng, name);
+    locations.push(newLocation);
 }
 
 function addPinpointToMap(lat, lng, name) {
@@ -45,8 +61,27 @@ function initializeMap() {
     addPinpointToMap(52.392, 13.7892, 'Tesla Giga Factory');
 }
 
+function updateLocation(location, newData) {
+    for (let i = 0; i < locations.length; i++) {
+        if (locations[i].name === location.name) {
+            locations[i] = newData;
+        }
+    }
+}
+
+function getLocationByName(locationName) {
+    for (let i = 0; i < locations.length; i++) {
+        if (locations[i].name === locationName) {
+            return locations[i];
+        }
+    }
+    return null;
+}
+
 
 export {
     addLocation,
-    initializeMap
+    initializeMap,
+    getLocationByName,
+    updateLocation
 }

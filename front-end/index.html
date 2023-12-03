@@ -63,11 +63,10 @@
                 <aside class="flex-column" id="locations-side-bar">
                     <h1 id="list-heading">Locations List</h1>
                     <ul>
-                        <li>
+                        <li class="location-li-item">
                             <div class="flex-row location-container">
                                 <div class="flex-column location-info">
-                                    <p class="location-title">Zigarettenfabrik 
-                                    </p>
+                                    <p class="location-title">Zigarettenfabrik</p>
                                     <p class="location-street">Rietzer Berg 28</p>
                                     <p class="location-city">Kloster Lenin, Brandenburg</p>
                                     <p class="location-level">Pollution level: 9/10</p>
@@ -79,7 +78,7 @@
                             </div>
                         </li>
 
-                        <li>
+                        <li class="location-li-item">
                             <div class="flex-row location-container">
                                 <div class="flex-column location-info">
                                     <p class="location-title">Tesla Giga Factory</p>
@@ -94,7 +93,7 @@
                             </div>
                         </li>
 
-                        <li>
+                        <li class="location-li-item">
                             <div class="flex-row location-container">
                                 <div class="flex-column location-info">
                                     <p class="location-title">Kiez in der Schwedenstraße
@@ -212,36 +211,36 @@
                     <h1 id="form-title">Edit location</h1>
                     <div class="flex-column field">
                         <label id="fname-label">Name</label>
-                        <input type="text" id="fname" value="Tesla Giga Factory" required>
+                        <input type="text" id="fname-update" required>
                     </div>
                     
                     <div class="flex-column field">
                         <label id="fdesc-label">Description</label>
-                        <textarea rows="5">This factory consumes way too many water than sustainable.</textarea>
+                        <textarea id="fdesc-update" rows="5"></textarea>
                     </div>
                     
                     
                     <div class="flex-row">
                         <div class="flex-column field first-half" id="street">
                             <label id="fstreet-label">Street</label>
-                            <input type="text" id="fstreet" value="Tesla Straße 1" required>
+                            <input type="text" id="fstreet-update" required>
                         </div>
 
                         <div class="flex-column field" id="postal">
                             <label id="fpostal-label">Postal code</label>
-                            <input type="number" id="fpostal" value="15537" min="0" required>
+                            <input type="number" id="fpostal-update" min="0" required>
                         </div>
                     </div>
                     
                     <div class="flex-row">
                         <div class="flex-column field first-half" id="city">
                             <label id="fcity-label">City</label>
-                            <input type="text" id="fcity" value="Grünheide (Mark)" required>
+                            <input type="text" id="fcity-update" required>
                         </div>
 
                         <div class="flex-column field">
                             <label id="fstate-label">State</label>
-                            <select id="fstate" name="state">
+                            <select id="fstate-update" name="state">
                                 <option value="brandenburg">Brandenburg</option>
                                 <option value="berlin">Berlin</option>
                             </select>
@@ -251,23 +250,23 @@
                     <div class="flex-row">
                         <div class="flex-column field first-half" id="lat">
                             <label id="flatitude-label">Latitude</label>
-                            <input type="number" id="flatitude" value="52.3928">
+                            <input type="number" id="flatitude-update">
                         </div>
                         <div class="flex-column field">
                             <label id="flongitude-label">Longitude</label>
-                            <input type="number" id="flongitude" value="13.7892">
+                            <input type="number" id="flongitude-update">
                         </div>
                     </div>
 
                     <div class="flex-row">
                         <div class="flex-column field first-half">
                             <label id="fpollution-level-label">Pollution level <span id="scale">(1 to 10)</span></label>
-                            <input type="number" id="fpollution-level" value="7" min="1" max="10">
+                            <input type="number" id="fpollution-level-update" min="1" max="10">
                         </div>
 
                         <div class="flex-column field">
                             <label id="fimage-label">Upload image</label>
-                            <input type="file" id="fimage">
+                            <input type="file" id="fimage-update">
                         </div>
                     </div>
    
