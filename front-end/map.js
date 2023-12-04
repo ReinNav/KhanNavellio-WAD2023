@@ -1,3 +1,5 @@
+import { goToUpdateScreen } from "./domHelper.js";
+
 let zigarettenfabrik = {
     name: "Zigarettenfabrik",
     desc: "A factory that produces harmful products with harmful chemical processes to the environment.", 
@@ -20,6 +22,8 @@ var map = L.mapquest.map('map', {
     zoom: 9 
 });
 
+var markers = [];
+
 function addLocation(newLocation) {
     const { name, street, postalCode, city, state, lat, lng, pollutionLevel} = newLocation;
 
@@ -41,9 +45,10 @@ function addLocation(newLocation) {
 
     // Append the new location to the sidebar
     const locationsList = document.querySelector('#locations-side-bar ul');
+    locationItem.onclick = goToUpdateScreen;
     locationsList.appendChild(locationItem);
 
-    addPinpointToMap(lat, lng, name);
+    addPinpointToMap(parseFloat(lat), parseFloat(lng), name);
     locations.push(newLocation);
 }
 
@@ -53,12 +58,13 @@ function addPinpointToMap(lat, lng, name) {
     marker.on('click', function(e) {
         marker.openPopup();
     });
+    markers.push(marker);
 }
 
 function initializeMap() {
-    addPinpointToMap(52.5573155, 13.3729101, 'Kiez in der Schwedenstraße');
-    addPinpointToMap(52.38300635, 12.610102564424093, 'Zigarettenfabrik');
-    addPinpointToMap(52.392, 13.7892, 'Tesla Giga Factory');
+    addLocation(zigarettenfabrik);
+    // addPinpointToMap(52.38300635, 12.610102564424093, 'Zigarettenfabrik');
+    // addPinpointToMap(52.392, 13.7892, 'Tesla Giga Factory');
 }
 
 function updateLocation(location, newData) {
@@ -78,10 +84,33 @@ function getLocationByName(locationName) {
     return null;
 }
 
+function updatePinpoint(oldData, newData) {
+    for (let i = 0; i < markers.length; i++) {
+        
+        let markerLat = markers[i].getLatLng().lat;
+        let markerLng = markers[i].getLatLng().lng;
+        let markerName = markers[i].getPopup().getContent();
+
+        // Check if the marker matches the old data
+        if (markerLat === parseFloat(oldData.lat) && markerLng === parseFloat(oldData.lng) && markerName === oldData.name) {
+            // Update the marker's position and name
+            markers[i].setLatLng([parseFloat(newData.lat), parseFloat(newData.lng)]);
+            markers[i].bindPopup(newData.name);
+
+            // Refresh the popup if it's open
+            if (markers[i].isPopupOpen()) {
+                markers[i].openPopup();
+            }
+            break; // Exit the loop once the marker is found
+        }
+    }
+}
+
 
 export {
     addLocation,
     initializeMap,
     getLocationByName,
-    updateLocation
+    updateLocation,
+    updatePinpoint
 }

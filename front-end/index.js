@@ -1,7 +1,7 @@
 import { login } from './spa_functionality.js';
-import { collectFormSubmission, goToLoginScreen, goToMainScreen } from './domHelper.js';
+import { goToLoginScreen, goToUpdateScreen, goToMainScreen, collectFormSubmission } from './domHelper.js';
+import { initializeMap, addLocation } from "./map.js";
 import { geocodeAddress } from './geoservice.js';
-import { addLocation, initializeMap, updateLocation } from "./map.js";
 
 document.addEventListener('DOMContentLoaded', function() {
     // Hide all sections except login
@@ -22,21 +22,32 @@ document.addEventListener('DOMContentLoaded', function() {
         logoutButton.onclick = goToLoginScreen;
     }
 
+    var locations = document.querySelectorAll('.location-li-item');
+    locations.forEach(function(location) {
+        location.onclick = goToUpdateScreen;
+    });
+
     document.getElementById('add-location-form').addEventListener('submit', function(event) {
         event.preventDefault();
-        var formData = collectFormSubmission();
-        const fullAddress = `${formData.street}, ${formData.postalCode}, ${formData.city}`;
+        var formData = collectFormSubmission("-add");
+        console.log(formData);
+        if (formData.lat === "" || formData.lng === "") {
+            const fullAddress = `${formData.street}, ${formData.postalCode}, ${formData.city}`;
 
-        geocodeAddress(fullAddress)
-            .then(latLng => {
-              formData.lat = latLng.lat;
-              formData.lng = latLng.lng;  
-              addLocation(formData);
-              goToMainScreen();
-            })
-            .catch(error => {
-              console.log(error.message);
-              alert('Geocoding failed. Please check and try the input again.');
-            });
+            geocodeAddress(fullAddress)
+                .then(latLng => {
+                formData.lat = String(latLng.lat);
+                formData.lng = String(latLng.lng);
+                addLocation(formData);
+                goToMainScreen();  
+                })
+                .catch(error => {
+                console.log(error.message);
+                alert('Geocoding failed. Please check and try the input again.');
+                });
+        } else {
+            addLocation(formData);
+            goToMainScreen();
+        }
     });
 });

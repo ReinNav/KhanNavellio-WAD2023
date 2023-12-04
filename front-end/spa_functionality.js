@@ -4,6 +4,8 @@ import { asAdmin, asNonAdmin, goToUpdateScreen, goToAddScreen, goToMainScreen } 
 const admina = {username: "admina", password: "password", role:"admin"};
 const normalo = {username: "normalo", password: "password", role:"non-admin"};
 
+var role;
+
 // Login function
 export function login() {
     const username = document.getElementById('username').value;
@@ -32,11 +34,15 @@ function handleRoleSpecificFunctionality(username, role) {
     if (role === 'admin') {
         asAdmin();
         document.getElementById('add-btn').onclick = goToAddScreen;
-        var locations = document.querySelectorAll('.location-li-item');
-        locations.forEach(function(location) {
-            location.onclick = goToUpdateScreen;
-        });
     } else {
         asNonAdmin();
     }
+}
+
+function getCurrentRole() {
+    return role;
+}
+
+export {
+    getCurrentRole
 }

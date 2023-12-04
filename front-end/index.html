@@ -63,53 +63,7 @@
                 <aside class="flex-column" id="locations-side-bar">
                     <h1 id="list-heading">Locations List</h1>
                     <ul>
-                        <li class="location-li-item">
-                            <div class="flex-row location-container">
-                                <div class="flex-column location-info">
-                                    <p class="location-title">Zigarettenfabrik</p>
-                                    <p class="location-street">Rietzer Berg 28</p>
-                                    <p class="location-city">Kloster Lenin, Brandenburg</p>
-                                    <p class="location-level">Pollution level: 9/10</p>
-                                </div>
-                                
-                                <div class="location-img-container">
-                                    <image src="res/location_images/factory_stock_photo.jpeg"></image>
-                                </div>
-                            </div>
-                        </li>
 
-                        <li class="location-li-item">
-                            <div class="flex-row location-container">
-                                <div class="flex-column location-info">
-                                    <p class="location-title">Tesla Giga Factory</p>
-                                    <p class="location-street">Tesla Straße 1</p>
-                                    <p class="location-city">Grünheide (Mark), Brandenburg</p>
-                                    <p class="location-level">Pollution level: 6/10</p>
-                                </div>
-                                
-                                <div class="location-img-container">
-                                    <image src="res/location_images/factory_stock_photo.jpeg"></image>
-                                </div>
-                            </div>
-                        </li>
-
-                        <li class="location-li-item">
-                            <div class="flex-row location-container">
-                                <div class="flex-column location-info">
-                                    <p class="location-title">Kiez in der Schwedenstraße
-                                    </p>
-                                    <p class="location-street"> Schwedenstraße,13359</p>
-                                    <p class="location-city">Berlin</p>
-                                    <p class="location-level">Pollution level: 8/10</p>
-                                </div>
-                                
-                                <div class="location-img-container">
-                                    <image src="res/location_images/kiez_sample_image.jpeg"></image>
-                                </div>
-                            </div>
-                        </li>
-                        
-                        
                     </ul>
                     
                 </aside>
@@ -133,35 +87,35 @@
                     <h1 id="form-title">Add a new location</h1>
                     <div class="flex-column field">
                         <label id="fname-label">Name</label>
-                        <input type="text" id="fname" placeholder="Name of place" required>
+                        <input type="text" id="fname-add" placeholder="Name of place" required>
                     </div>
                     
                     <div class="flex-column field">
                         <label id="fdesc-label">Description</label>
-                        <textarea rows="5" placeholder="Description of place"></textarea>
+                        <textarea id="fdesc-add" rows="5" placeholder="Description of place"></textarea>
                     </div>
                     
                     <div class="flex-row">
                         <div class="flex-column field first-half" id="street">
                             <label id="fstreet-label">Street</label>
-                            <input type="text" id="fstreet" placeholder="Street" required>
+                            <input type="text" id="fstreet-add" placeholder="Street" required>
                         </div>
 
                         <div class="flex-column field" id="postal">
                             <label id="fpostal-label">Postal code</label>
-                            <input type="number" id="fpostal" placeholder="Postal Code" min="0" required>
+                            <input type="number" id="fpostal-add" placeholder="Postal Code" min="0" required>
                         </div>
                     </div>
                     
                     <div class="flex-row">
                         <div class="flex-column field first-half" id="city">
                             <label id="fcity-label">City</label>
-                            <input type="text" id="fcity" placeholder="City" required>
+                            <input type="text" id="fcity-add" placeholder="City" required>
                         </div>
 
                         <div class="flex-column field">
                             <label id="fstate-label">State</label>
-                            <select id="fstate" name="state" required>
+                            <select id="fstate-add" name="state" required>
                                 <option value="berlin">Berlin</option>
                                 <option value="brandenburg">Brandenburg</option>
                             </select>
@@ -171,23 +125,23 @@
                     <div class="flex-row">
                         <div class="flex-column field first-half" id="lat">
                             <label id="flatitude-label">Latitude</label>
-                            <input type="number" id="flatitude" placeholder="Latitude">
+                            <input type="number" step="any" id="flatitude-add" placeholder="Latitude">
                         </div>
                         <div class="flex-column field">
                             <label id="flongitude-label">Longitude</label>
-                            <input type="number" id="flongitude" placeholder="Longitude">
+                            <input type="number" step="any" id="flongitude-add" placeholder="Longitude">
                         </div>
                     </div>
 
                     <div class="flex-row">
                         <div class="flex-column field first-half">
                             <label id="fpollution-level-label">Pollution level <span id="scale">(1 to 10)</span></label>
-                            <input type="number" id="fpollution-level" placeholder="Pollution level" min="1" max="10">
+                            <input type="number" id="fpollution-level-add" placeholder="Pollution level" min="1" max="10">
                         </div>
 
                         <div class="flex-column field">
                             <label id="fimage-label">Upload image</label>
-                            <input type="file" id="fimage">
+                            <input type="file" id="fimage-add">
                         </div>
                     </div>
                     
@@ -250,11 +204,11 @@
                     <div class="flex-row">
                         <div class="flex-column field first-half" id="lat">
                             <label id="flatitude-label">Latitude</label>
-                            <input type="number" id="flatitude-update">
+                            <input type="number" step="any" id="flatitude-update">
                         </div>
                         <div class="flex-column field">
                             <label id="flongitude-label">Longitude</label>
-                            <input type="number" id="flongitude-update">
+                            <input type="number" step="any" id="flongitude-update">
                         </div>
                     </div>
 

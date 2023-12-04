@@ -117,6 +117,7 @@ section {
     box-sizing: border-box;
     width: 100%;
     list-style-type: none;
+    overflow: scroll;
 }
 
 #locations-side-bar li {
@@ -277,6 +278,7 @@ footer {
     width: 350px;
     margin: 0 auto;
 }
+
 
 .field {
     width: 100%;

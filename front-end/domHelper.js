@@ -1,5 +1,7 @@
-import { getLocationByName, updateLocation } from "./map.js";
+import { getLocationByName, updateLocation, updatePinpoint, addLocation } from "./map.js";
 import { geocodeAddress } from "./geoservice.js";
+
+var role = "";
 
 const hideAllSections = () => {
     document.querySelectorAll('section').forEach(section => {
@@ -17,10 +19,12 @@ const showElement = (id) => {
 
 const asAdmin = () => {
     showElement('add-btn');
+    role = "admin";
 }
 
 const asNonAdmin = () => {
     hideElement('add-btn');
+    role = "non-admin";
 }
 
 const goToAddScreen = () => {
@@ -48,34 +52,54 @@ const goToUpdateScreen = (event) => {
 
     var locationName = nameElement.textContent;
     const location = getLocationByName(locationName);
+
     console.log(location);
     console.log(locationName);
 
     hideAllSections();
     document.getElementById('update-delete-screen').style.display = 'block';
+
+    //TODO
+    // if (role == "admin") {
+
+    // } else {
+
+    // }
+
     fillUpdateFormWithData(location);
 
 
     document.getElementById('update-location-form').addEventListener('submit', function(event) {
         event.preventDefault();
         var newData = collectFormSubmission("-update");
+        console.log(newData);
+        if (newData.lat === "" || newData.lng === "") {
         const fullAddress = `${newData.street}, ${newData.postalCode}, ${newData.city}`;
 
         geocodeAddress(fullAddress)
             .then(latLng => {
-              newData.lat = latLng.lat;
-              newData.lng = latLng.lng;  
-              updateLocation(location, newData);
-              goToMainScreen();
-              nameElement.textContent = newData.name;
-              streetElement.textContent = newData.street;
-              cityElement.textContent = `${newData.city}, ${newData.state}`;
-              levelElement.textContent = `Pollution level: ${newData.pollutionLevel}`;
+            newData.lat = String(latLng.lat);
+            newData.lng = String(latLng.lng);  
+            updateLocation(location, newData);
+            goToMainScreen();
             })
             .catch(error => {
-              console.log(error.message);
-              alert('Geocoding failed. Please check and try the input again.');
+            console.log(error.message);
+            alert('Geocoding failed. Please check and try the input again.');
             });
+        } else {
+            updateLocation(location, newData);
+            goToMainScreen();
+        }
+        // Set data values for a location item in list
+        nameElement.textContent = newData.name;
+        streetElement.textContent = newData.street;
+        cityElement.textContent = `${newData.city}, ${newData.state}`;
+        levelElement.textContent = `Pollution level: ${newData.pollutionLevel}`;
+
+
+        updatePinpoint(location, newData);
+        
     });
 }
 
@@ -85,12 +109,12 @@ const collectFormSubmission = (identifier) => {
         name: document.getElementById('fname' +identifier).value,
         desc: document.getElementById('fdesc' +identifier).value,
         street: document.getElementById('fstreet' +identifier).value,
-        postalCode: document.getElementById('fpostal' +identifier).value,
+        postalCode: String(document.getElementById('fpostal' +identifier).value),
         city: document.getElementById('fcity' +identifier).value,
         state: document.getElementById('fstate' +identifier).value,
-        lat: document.getElementById('flatitude' +identifier).value,
-        lng: document.getElementById('flongitude' +identifier).value,
-        pollutionLevel: document.getElementById('fpollution-level' +identifier).value,
+        lat: String(document.getElementById('flatitude' +identifier).value),
+        lng: String(document.getElementById('flongitude' +identifier).value),
+        pollutionLevel: String(document.getElementById('fpollution-level' +identifier).value),
     }
     return formData;
 }
