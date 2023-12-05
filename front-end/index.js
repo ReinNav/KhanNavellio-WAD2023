@@ -40,6 +40,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 formData.lng = String(latLng.lng);
                 addLocation(formData);
                 goToMainScreen();  
+                clearAddForm(); 
                 })
                 .catch(error => {
                 console.log(error.message);
@@ -48,6 +49,12 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
             addLocation(formData);
             goToMainScreen();
+            clearAddForm(); 
         }
     });
+    // Function to clear the form fields
+function clearAddForm() {
+    const addForm = document.getElementById('add-location-form');
+    addForm.reset();
+}
 });

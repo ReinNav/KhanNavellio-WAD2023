@@ -102,18 +102,16 @@ const goToUpdateScreen = (event) => {
     fillUpdateFormWithData(location);
     // Show or hide buttons based on the user role
     const submitButton = document.getElementById('submit-button');
-    const deleteButton = document.getElementById('delete-button');
+    const deleteButton = document.getElementById('delete-btn');
 
     if (role === "admin") {
         // Show submit and delete buttons for admin
         if (submitButton) submitButton.style.display = 'block';
-        if (deleteButton) deleteButton.style.display = 'block';
-
-        const deleteButton = document.getElementById('delete-button');
         if (deleteButton) {
+            deleteButton.style.display = 'block';
             deleteButton.onclick = () => deleteLocationHandler(locationName);
         }
-        
+
     } else if (role === "non-admin") {
         // Hide submit and delete buttons for normalo
         if (submitButton) submitButton.style.display = 'none';

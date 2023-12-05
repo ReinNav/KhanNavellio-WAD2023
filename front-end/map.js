@@ -12,7 +12,35 @@ let zigarettenfabrik = {
     pollutionLevel: "7"
    };
 
+   let teslagigafactory = {
+    name: "Tesla Giga Factory",
+    desc: "A factory that causes water waste", 
+    street: "Tesla Straße 1",
+    postalCode: "15537", 
+    city: "Berlin",
+    state: "Brandenburg",
+    lat: "52.581400",
+    lng: "13.440460",
+    pollutionLevel: "5"
+};
+
+let kiez_in_der_Schwedenstraße = {
+    name: "Kiez in der Schwedenstraße",
+    desc: "A factory that causes water waste", 
+    street: "Schwedenstraße",
+    postalCode: "13359", 
+    city: "Berlin",
+    state: "Berlin",
+    lat: "52.540220",
+    lng: "13.295390",
+    pollutionLevel: "8"
+};
+  
+
 var locations = [zigarettenfabrik];
+var locations = [teslagigafactory];
+var locations = [kiez_in_der_Schwedenstraße];
+
 
 L.mapquest.key = 'BTjR7udbEih1QrCTjZUq7w1m25Eket6l';
 
@@ -63,6 +91,8 @@ function addPinpointToMap(lat, lng, name) {
 
 function initializeMap() {
     addLocation(zigarettenfabrik);
+    addLocation(teslagigafactory);
+    addLocation(kiez_in_der_Schwedenstraße);
     // addPinpointToMap(52.38300635, 12.610102564424093, 'Zigarettenfabrik');
     // addPinpointToMap(52.392, 13.7892, 'Tesla Giga Factory');
 }
