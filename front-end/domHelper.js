@@ -31,6 +31,7 @@ const asNonAdmin = () => {
 const goToAddScreen = () => {
     hideAllSections();
     document.getElementById('add-screen').style.display = 'block';
+    
 }
 
 const goToMainScreen = () => {
@@ -74,11 +75,27 @@ const updateFormSubmitHandler = (event, location, nameElement, streetElement, ci
 
     updatePinpoint(location, newData);
 };
+const disableFormFields = (formId) => {
+    const form = document.getElementById(formId);
+    const formElements = form.elements;
+
+    for (let i = 0; i < formElements.length; i++) {
+        const element = formElements[i];
+        if (element.type !== 'button' && element.id !== 'cancel-btn') {
+            element.disabled = true;
+        }
+    }
+}
+const enableCancelButton = () => {
+    const cancelButton = document.getElementById('cancel-btn');
+    cancelButton.disabled = false;
+}
+
 const deleteLocationHandler = (locationName) => {
     if (role === "admin") {
         removeLocationFromList(locationName);
         removeMarkerFromMap(locationName);
-        goToMainScreen(); // Optionally, navigate back to the main screen
+        goToMainScreen(); 
     }
 };
 
@@ -104,6 +121,7 @@ const goToUpdateScreen = (event) => {
     const submitButton = document.getElementById('submit-button');
     const deleteButton = document.getElementById('delete-btn');
 
+
     if (role === "admin") {
         // Show submit and delete buttons for admin
         if (submitButton) submitButton.style.display = 'block';
@@ -116,6 +134,9 @@ const goToUpdateScreen = (event) => {
         // Hide submit and delete buttons for normalo
         if (submitButton) submitButton.style.display = 'none';
         if (deleteButton) deleteButton.style.display = 'none';
+        disableFormFields('update-location-form');
+        enableCancelButton();        
+
     }
 
     // Remove any existing event listener and add a new one
