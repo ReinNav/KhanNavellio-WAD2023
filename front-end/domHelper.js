@@ -1,5 +1,6 @@
 import { getLocationByName, updateLocation, updatePinpoint, addLocation } from "./map.js";
 import { geocodeAddress } from "./geoservice.js";
+import { removeLocationFromList, removeMarkerFromMap } from './map.js';
 
 var role = "";
 
@@ -41,6 +42,45 @@ const goToLoginScreen = () => {
     hideAllSections();
     document.getElementById('login-screen').style.display = 'flex';
 }
+const updateFormSubmitHandler = (event, location, nameElement, streetElement, cityElement, levelElement) => {
+    event.preventDefault();
+    var newData = collectFormSubmission("-update");
+    console.log(newData);
+
+    if (newData.lat === "" || newData.lng === "") {
+        const fullAddress = `${newData.street}, ${newData.postalCode}, ${newData.city}`;
+
+        geocodeAddress(fullAddress)
+            .then(latLng => {
+                newData.lat = String(latLng.lat);
+                newData.lng = String(latLng.lng);  
+                updateLocation(location, newData);
+                goToMainScreen();
+            })
+            .catch(error => {
+                console.log(error.message);
+                alert('Geocoding failed. Please check and try the input again.');
+            });
+    } else {
+        updateLocation(location, newData);
+        goToMainScreen();
+    }
+
+    // Update the specific list item in the list
+    nameElement.textContent = newData.name;
+    streetElement.textContent = newData.street;
+    cityElement.textContent = `${newData.city}, ${newData.state}`;
+    levelElement.textContent = `Pollution level: ${newData.pollutionLevel}`;
+
+    updatePinpoint(location, newData);
+};
+const deleteLocationHandler = (locationName) => {
+    if (role === "admin") {
+        removeLocationFromList(locationName);
+        removeMarkerFromMap(locationName);
+        goToMainScreen(); // Optionally, navigate back to the main screen
+    }
+};
 
 const goToUpdateScreen = (event) => {
     var clickedLi = event.currentTarget;
@@ -59,48 +99,31 @@ const goToUpdateScreen = (event) => {
     hideAllSections();
     document.getElementById('update-delete-screen').style.display = 'block';
 
-    //TODO
-    // if (role == "admin") {
-
-    // } else {
-
-    // }
-
     fillUpdateFormWithData(location);
+    // Show or hide buttons based on the user role
+    const submitButton = document.getElementById('submit-button');
+    const deleteButton = document.getElementById('delete-button');
 
+    if (role === "admin") {
+        // Show submit and delete buttons for admin
+        if (submitButton) submitButton.style.display = 'block';
+        if (deleteButton) deleteButton.style.display = 'block';
 
-    document.getElementById('update-location-form').addEventListener('submit', function(event) {
-        event.preventDefault();
-        var newData = collectFormSubmission("-update");
-        console.log(newData);
-        if (newData.lat === "" || newData.lng === "") {
-        const fullAddress = `${newData.street}, ${newData.postalCode}, ${newData.city}`;
-
-        geocodeAddress(fullAddress)
-            .then(latLng => {
-            newData.lat = String(latLng.lat);
-            newData.lng = String(latLng.lng);  
-            updateLocation(location, newData);
-            goToMainScreen();
-            })
-            .catch(error => {
-            console.log(error.message);
-            alert('Geocoding failed. Please check and try the input again.');
-            });
-        } else {
-            updateLocation(location, newData);
-            goToMainScreen();
+        const deleteButton = document.getElementById('delete-button');
+        if (deleteButton) {
+            deleteButton.onclick = () => deleteLocationHandler(locationName);
         }
-        // Set data values for a location item in list
-        nameElement.textContent = newData.name;
-        streetElement.textContent = newData.street;
-        cityElement.textContent = `${newData.city}, ${newData.state}`;
-        levelElement.textContent = `Pollution level: ${newData.pollutionLevel}`;
-
-
-        updatePinpoint(location, newData);
         
-    });
+    } else if (role === "non-admin") {
+        // Hide submit and delete buttons for normalo
+        if (submitButton) submitButton.style.display = 'none';
+        if (deleteButton) deleteButton.style.display = 'none';
+    }
+
+    // Remove any existing event listener and add a new one
+    const updateForm = document.getElementById('update-location-form');
+    updateForm.removeEventListener('submit', updateFormSubmitHandler);
+    updateForm.addEventListener('submit', (e) => updateFormSubmitHandler(e, location, nameElement, streetElement, cityElement, levelElement));
 }
 
 const collectFormSubmission = (identifier) => {

@@ -105,6 +105,30 @@ function updatePinpoint(oldData, newData) {
         }
     }
 }
+function removeLocationFromList(locationName) {
+    // Remove location from array
+    locations = locations.filter(location => location.name !== locationName);
+
+    // Remove corresponding list item from DOM
+    const locationsList = document.querySelector('#locations-side-bar ul');
+    const locationItems = locationsList.querySelectorAll('.location-li-item');
+    locationItems.forEach(item => {
+        if (item.querySelector('.location-title').textContent === locationName) {
+            locationsList.removeChild(item);
+        }
+    });
+}
+function removeMarkerFromMap(locationName) {
+    for (let i = 0; i < markers.length; i++) {
+        let markerName = markers[i].getPopup().getContent();
+        if (markerName === locationName) {
+            map.removeLayer(markers[i]);
+            markers.splice(i, 1);
+            break;
+        }
+    }
+}
+
 
 
 export {
@@ -112,5 +136,7 @@ export {
     initializeMap,
     getLocationByName,
     updateLocation,
-    updatePinpoint
+    updatePinpoint,
+    removeLocationFromList,
+    removeMarkerFromMap
 }
