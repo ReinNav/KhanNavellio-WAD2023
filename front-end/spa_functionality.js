@@ -27,6 +27,7 @@ export function login() {
 // Function to handle role-specific functionality
 function handleRoleSpecificFunctionality(username, role) {
     const welcomeMessageElement = document.getElementById('main-header').querySelector('h1');
+    
     if (welcomeMessageElement) {
         welcomeMessageElement.textContent = `Welcome, ${username}!`;
     }

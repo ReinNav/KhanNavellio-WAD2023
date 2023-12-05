@@ -57,4 +57,5 @@ function clearAddForm() {
     const addForm = document.getElementById('add-location-form');
     addForm.reset();
 }
+
 });
