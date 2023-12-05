@@ -120,6 +120,7 @@ const goToUpdateScreen = (event) => {
     // Show or hide buttons based on the user role
     const submitButton = document.getElementById('submit-button');
     const deleteButton = document.getElementById('delete-btn');
+    const formTitle = document.getElementById('form-title-update');
 
 
     if (role === "admin") {
@@ -134,6 +135,7 @@ const goToUpdateScreen = (event) => {
         // Hide submit and delete buttons for normalo
         if (submitButton) submitButton.style.display = 'none';
         if (deleteButton) deleteButton.style.display = 'none';
+        if (formTitle) formTitle.textContent = 'Location Info';
         disableFormFields('update-location-form');
         enableCancelButton();        
 

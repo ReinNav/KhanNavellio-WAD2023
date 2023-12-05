@@ -18,7 +18,7 @@ let zigarettenfabrik = {
     street: "Tesla Straße 1",
     postalCode: "15537", 
     city: "Berlin",
-    state: "Brandenburg",
+    state: "brandenburg",
     lat: "52.581400",
     lng: "13.440460",
     pollutionLevel: "5"
@@ -30,7 +30,7 @@ let kiez_in_der_Schwedenstraße = {
     street: "Schwedenstraße",
     postalCode: "13359", 
     city: "Berlin",
-    state: "Berlin",
+    state: "berlin",
     lat: "52.540220",
     lng: "13.295390",
     pollutionLevel: "8"

@@ -109,6 +109,7 @@ section {
     align-items: center;
     justify-content: flex-start;
     border-right: solid 3px grey;
+    overflow: scroll;
 }
 
 #locations-side-bar ul {
@@ -117,7 +118,6 @@ section {
     box-sizing: border-box;
     width: 100%;
     list-style-type: none;
-    overflow: scroll;
 }
 
 #locations-side-bar li {
@@ -270,7 +270,7 @@ footer {
     width: 500px;
 }
 
-#form-title {
+#form-title, #form-title-update {
     text-align: center;
 }
 
