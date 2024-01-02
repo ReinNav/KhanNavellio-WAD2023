@@ -17,7 +17,7 @@ MongoCRUDs.prototype.findOneUser  = async function(uNameIn, passwdIn) {
   const client = new MongoClient(uri);
   try {
     const database = client.db(db_name);
-    const users = database.collection('users');
+    const users = database.collection('User');
     const query = {username: uNameIn, password: passwdIn};
     const doc = await users.findOne(query);
     if (doc) {
@@ -34,7 +34,7 @@ MongoCRUDs.prototype.findAllUsers  = async function() {
   const client = new MongoClient(uri);
   try {  
     const database = client.db(db_name);
-    const users = database.collection('users');
+    const users = database.collection('User');
     const query = {};
     const cursor = users.find(query);
     // Print a message if no documents were found
@@ -53,6 +53,40 @@ MongoCRUDs.prototype.findAllUsers  = async function() {
     await client.close();
   }
 };
+
+MongoCRUDs.prototype.getAllLocations = async function () {
+  const client = new MongoClient(this.uri);
+  try {
+    await client.connect();
+    const database = client.db(this.db_name);
+    const locations = database.collection('Location');
+    const allLocations = await locations.find({}).toArray();
+    return allLocations;
+  } catch (error) {
+    console.error('Error fetching all locations:', error);
+    return null; // Handle error appropriately
+  } finally {
+    await client.close();
+  }
+};
+
+
+MongoCRUDs.prototype.addLocation = async function(locationData) {
+  const client = new MongoClient(this.uri);
+  try {
+    await client.connect();
+    const database = client.db(this.db_name);
+    const locations = database.collection('Location');
+    const result = await locations.insertOne(locationData);
+    return result.insertedId; 
+  } catch (error) {
+    console.error('Error adding location:', error);
+    return null;  // Handle error appropriately
+  } finally {
+    await client.close();
+  }
+};
+
 
 const mongoCRUDs = new MongoCRUDs(db_name, uri);
 

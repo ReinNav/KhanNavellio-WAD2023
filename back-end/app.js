@@ -3,7 +3,7 @@ const express = require('express');
 const path = require('path');
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
-
+ 
 let app = express();
 
 app.use(express.json());
@@ -16,6 +16,9 @@ app.use('/', indexRouter);
 
 app.use('/users', usersRouter);
 
+const locationRouter = require('./routes/location');
+app.use('/loc', locationRouter);
+
 // send "Not found" for all other 'paths'
 app.use(function(req, res) {
   res.status(404).send('Not found: ' + req.path);
@@ -26,5 +29,6 @@ app.use(function(err, res) {
   // send the error page
   res.status(err.status || 500).send('error' + err.message);
 });
+ 
 
 module.exports = app;
