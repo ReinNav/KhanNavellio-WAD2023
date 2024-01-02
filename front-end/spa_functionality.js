@@ -1,35 +1,45 @@
 import { asAdmin, asNonAdmin, goToUpdateScreen, goToAddScreen, goToMainScreen } from "./domHelper.js";
 
-// User credentials
-const admina = {username: "admina", password: "password", role:"admin"};
-const normalo = {username: "normalo", password: "password", role:"non-admin"};
-
 var role;
 
-// Login function
+// spa_functionality.js
 export function login() {
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
 
-    if (username === admina.username && password === admina.password) {
+    fetch('http://127.0.0.1:8000/users', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ username, password })
+})
+    .then(response => {
+        if (response.ok) {
+            return response.json();
+        } else {
+            throw new Error('Invalid credentials!');
+        }
+    })
+    .then(userData => {
+    
         goToMainScreen();
-        handleRoleSpecificFunctionality(username, 'admin');
-    } else if (username === normalo.username && password === normalo.password) {
-        goToMainScreen();
-        handleRoleSpecificFunctionality(username, 'non-admin');
-    } else {
-        alert('Invalid credentials!')
-    }
+        handleRoleSpecificFunctionality(userData.firstname, userData.role);
+    })
+    .catch(error => {
+        alert(error.message);
+    });
 
     return false; // Prevent form submission
 }
 
+
 // Function to handle role-specific functionality
-function handleRoleSpecificFunctionality(username, role) {
+function handleRoleSpecificFunctionality(firstname, role) {
     const welcomeMessageElement = document.getElementById('main-header').querySelector('h1');
     
     if (welcomeMessageElement) {
-        welcomeMessageElement.textContent = `Welcome, ${username}!`;
+        welcomeMessageElement.textContent = `Welcome, ${firstname}!`;
     }
 
     if (role === 'admin') {

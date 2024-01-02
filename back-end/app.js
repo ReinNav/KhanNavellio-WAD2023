@@ -3,10 +3,16 @@ const express = require('express');
 const path = require('path');
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
+const locationRouter = require('./routes/location');
+const cors = require('cors');
+
  
 let app = express();
 
 app.use(express.json());
+app.use(cors());
+
+
 
 // ../public is the directory for the static ressources
 // GET http://localhost:8000/ or GET http://localhost:8000/index.html 
@@ -16,7 +22,6 @@ app.use('/', indexRouter);
 
 app.use('/users', usersRouter);
 
-const locationRouter = require('./routes/location');
 app.use('/loc', locationRouter);
 
 // send "Not found" for all other 'paths'

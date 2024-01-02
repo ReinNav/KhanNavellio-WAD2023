@@ -25,21 +25,21 @@ router.get('/', async function(req, res) {
 // erwartet eine payload diesen Formats ^^^
 // der Header Content-Type: application/json MUSS mitgeschickt
 // 
-router.post('/', function(req, res) {
-  // wird automatisch in ein JS-Objekt umgewandelt, 
-  // wenn Content-Type: application/json gesetzt ist
-  let userToLogin = req.body;  
-  console.log (userToLogin);
-  if (userToLogin.username === "admina") {
-    let mina = {userId: userToLogin.username, name: "Mina", role: "admin"};
-    res.status(200).json(mina);
-  } else if (userToLogin.username === "normalo") {
-    let norm = { userId: userToLogin.username, name: "Norman", role: "non-admin"};
-    res.status(200).json(norm);
-  } else {
-    res.status(401).send("Bad Login Credentials");
+router.post('/', async function(req, res) {
+  let userToLogin = req.body;
+  try {
+    let user = await mongoCRUDs.findOneUser(userToLogin.username, userToLogin.password);
+    if (user) {
+      res.status(200).json({ userId: user.username, firstname: user.firstname, role: user.role });
+    } else {
+      res.status(401).send("Bad Login Credentials");
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Server Error");
   }
 });
+
 
 
 

@@ -6,6 +6,13 @@
 
 let app = require('./app');
 let http = require('http');
+const cors = require('cors');
+const locationRouter = require('./routes/location');
+
+
+app.use(cors());
+app.use('/loc', locationRouter);
+
 
 let port = 8000;
 app.set('port', port);
