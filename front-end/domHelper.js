@@ -4,6 +4,7 @@ import { removeLocationFromList, removeMarkerFromMap } from './map.js';
 
 var role = "";
 
+// Utility functions for showing/hiding elements
 const hideAllSections = () => {
     document.querySelectorAll('section').forEach(section => {
         section.style.display = 'none';
@@ -18,6 +19,7 @@ const showElement = (id) => {
     document.getElementById(id).style.display = 'block';
 }
 
+// Role-based UI adjustments
 const asAdmin = () => {
     showElement('add-btn');
     role = "admin";
@@ -28,10 +30,10 @@ const asNonAdmin = () => {
     role = "non-admin";
 }
 
+// Navigation functions
 const goToAddScreen = () => {
     hideAllSections();
-    document.getElementById('add-screen').style.display = 'block';
-    
+    document.getElementById('add-screen').style.display = 'block'; 
 }
 
 const goToMainScreen = () => {
@@ -43,19 +45,21 @@ const goToLoginScreen = () => {
     hideAllSections();
     document.getElementById('login-screen').style.display = 'flex';
 }
+
+// Form submission handlers
 const updateFormSubmitHandler = (event, location, nameElement, streetElement, cityElement, levelElement) => {
     event.preventDefault();
     var newData = collectFormSubmission("-update");
     console.log(newData);
 
+    // If latitude or longitude is empty, use geocoding service to get them
     if (newData.lat === "" || newData.lng === "") {
         const fullAddress = `${newData.street}, ${newData.postalCode}, ${newData.city}`;
-
         geocodeAddress(fullAddress)
             .then(latLng => {
                 newData.lat = String(latLng.lat);
                 newData.lng = String(latLng.lng);  
-                updateLocation(location, newData);
+                updateLocationBackend(location, newData); // Update location in backend
                 goToMainScreen();
             })
             .catch(error => {
@@ -63,41 +67,83 @@ const updateFormSubmitHandler = (event, location, nameElement, streetElement, ci
                 alert('Geocoding failed. Please check and try the input again.');
             });
     } else {
-        updateLocation(location, newData);
+        updateLocationBackend(location, newData); // Update location in backend
         goToMainScreen();
     }
 
-    // Update the specific list item in the list
+    // Update the UI with new location data
     nameElement.textContent = newData.name;
     streetElement.textContent = newData.street;
     cityElement.textContent = `${newData.city}, ${newData.state}`;
     levelElement.textContent = `Pollution level: ${newData.pollutionLevel}`;
-
     updatePinpoint(location, newData);
 };
-const disableFormFields = (formId) => {
-    const form = document.getElementById(formId);
-    const formElements = form.elements;
 
-    for (let i = 0; i < formElements.length; i++) {
-        const element = formElements[i];
-        if (element.type !== 'button' && element.id !== 'cancel-btn') {
-            element.disabled = true;
-        }
-    }
-}
-const enableCancelButton = () => {
-    const cancelButton = document.getElementById('cancel-btn');
-    cancelButton.disabled = false;
-}
+// Function to update location in the backend
+const updateLocationBackend = (location, newData) => {
+    fetch(`http://localhost:8000/loc/${location._id}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newData),
+    })
+    .then(response => response.json())
+    .then(updatedLocation => {
+        console.log('Location updated successfully:', updatedLocation);
+        // Optionally update the frontend here
+    })
+    .catch(error => console.error('Error updating location:', error));
+};
 
+// Function to add a new location
+const submitAddLocationForm = (event) => {
+    event.preventDefault();
+    const locationData = collectFormSubmission(""); // Assuming this collects add form data
+
+    fetch('http://localhost:8000/loc', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(locationData),
+    })
+    .then(response => response.json())
+    .then(addedLocation => {
+        addLocation(addedLocation); // Add the location to the map
+        goToMainScreen();
+    })
+    .catch(error => {
+        console.error('Error adding location:', error);
+        alert('Failed to add location.');
+    });
+};
+
+// Function to delete a location from the backend
 const deleteLocationHandler = (locationName) => {
     if (role === "admin") {
-        removeLocationFromList(locationName);
-        removeMarkerFromMap(locationName);
-        goToMainScreen(); 
+        const location = getLocationByName(locationName);
+        if (location && location._id) {
+            fetch(`http://localhost:8000/loc/${location._id}`, {
+                method: 'DELETE',
+            })
+            .then(response => {
+                if (response.ok) {
+                    removeLocationFromList(locationName);
+                    removeMarkerFromMap(locationName);
+                    goToMainScreen(); 
+                } else {
+                    throw new Error('Deletion failed');
+                }
+            })
+            .catch(error => {
+                console.error('Error deleting location:', error);
+                alert('Failed to delete location.');
+            });
+        }
     }
 };
+
 
 const goToUpdateScreen = (event) => {
     var clickedLi = event.currentTarget;
@@ -148,33 +194,41 @@ const goToUpdateScreen = (event) => {
 }
 
 const collectFormSubmission = (identifier) => {
-
     var formData = {
-        name: document.getElementById('fname' +identifier).value,
-        desc: document.getElementById('fdesc' +identifier).value,
-        street: document.getElementById('fstreet' +identifier).value,
-        postalCode: String(document.getElementById('fpostal' +identifier).value),
-        city: document.getElementById('fcity' +identifier).value,
-        state: document.getElementById('fstate' +identifier).value,
-        lat: String(document.getElementById('flatitude' +identifier).value),
-        lng: String(document.getElementById('flongitude' +identifier).value),
-        pollutionLevel: String(document.getElementById('fpollution-level' +identifier).value),
+        name: document.getElementById('fname' + identifier).value,
+        desc: document.getElementById('fdesc' + identifier).value,
+        street: document.getElementById('fstreet' + identifier).value,
+        postalCode: String(document.getElementById('fpostal' + identifier).value),
+        city: document.getElementById('fcity' + identifier).value,
+        state: document.getElementById('fstate' + identifier).value,
+        // Convert latitude and longitude to float
+        lat: parseFloat(document.getElementById('flatitude' + identifier).value),
+        lng: parseFloat(document.getElementById('flongitude' + identifier).value),
+        pollutionLevel: String(document.getElementById('fpollution-level' + identifier).value),
     }
     return formData;
 }
 
-const fillUpdateFormWithData = (location) => {
 
-    document.getElementById('fname-update').value = location.name;
-    document.getElementById('fdesc-update').value = location.desc;
-    document.getElementById('fstreet-update').value = location.street;
-    document.getElementById('fpostal-update').value = location.postalCode;
-    document.getElementById('fcity-update').value = location.city;
-    document.getElementById('fstate-update').value = location.state;
-    document.getElementById('flatitude-update').value = location.lat;
-    document.getElementById('flongitude-update').value = location.lng;
-    document.getElementById('fpollution-level-update').value = location.pollutionLevel;
+const fillUpdateFormWithData = (location) => {
+    // Check if the location object is null
+    if (!location) {
+        console.error('Location data is null');
+        alert('Location data not found.');
+        return; // Exit the function if location is null
+    }
+
+    document.getElementById('fname-update').value = location.name || '';
+    document.getElementById('fdesc-update').value = location.desc || '';
+    document.getElementById('fstreet-update').value = location.street || '';
+    document.getElementById('fpostal-update').value = location.postalCode || '';
+    document.getElementById('fcity-update').value = location.city || '';
+    document.getElementById('fstate-update').value = location.state || '';
+    document.getElementById('flatitude-update').value = location.lat || '';
+    document.getElementById('flongitude-update').value = location.lng || '';
+    document.getElementById('fpollution-level-update').value = location.pollutionLevel || '';
 }
+
 
 var cancelButtons = document.querySelectorAll('#cancel-btn');
 cancelButtons.forEach(function(cancelButton) {

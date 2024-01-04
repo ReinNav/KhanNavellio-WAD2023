@@ -110,6 +110,7 @@ MongoCRUDs.prototype.addLocation = async function(locationData) {
 };
 
 
+
 MongoCRUDs.prototype.updateLocation = async function (locationId, updatedLocationData) {
   const client = new MongoClient(this.uri);
   try {

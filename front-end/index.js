@@ -4,7 +4,6 @@ import { initializeMap, addLocation } from "./map.js";
 import { geocodeAddress } from './geoservice.js';
 
 document.addEventListener('DOMContentLoaded', function() {
-    // Hide all sections except login
     initializeMap();
     goToLoginScreen();
 
@@ -22,40 +21,62 @@ document.addEventListener('DOMContentLoaded', function() {
         logoutButton.onclick = goToLoginScreen;
     }
 
-    var locations = document.querySelectorAll('.location-li-item');
-    locations.forEach(function(location) {
-        location.onclick = goToUpdateScreen;
-    });
-
-    document.getElementById('add-location-form').addEventListener('submit', function(event) {
+    document.getElementById('add-location-form').addEventListener('submit', async function(event) {
         event.preventDefault();
         var formData = collectFormSubmission("-add");
-        console.log(formData);
-        if (formData.lat === "" || formData.lng === "") {
-            const fullAddress = `${formData.street}, ${formData.postalCode}, ${formData.city}`;
 
-            geocodeAddress(fullAddress)
-                .then(latLng => {
-                formData.lat = String(latLng.lat);
-                formData.lng = String(latLng.lng);
-                addLocation(formData);
-                goToMainScreen();  
-                clearAddForm(); 
-                })
-                .catch(error => {
-                console.log(error.message);
-                alert('Geocoding failed. Please check and try the input again.');
-                });
-        } else {
-            addLocation(formData);
-            goToMainScreen();
-            clearAddForm(); 
+        if (validateAndProcessFormData(formData)) {
+            try {
+                const response = await postLocationToBackend(formData);
+                if (response.ok) {
+                    addLocation(formData, true); // true indicates it's a new location
+                    goToMainScreen();
+                    clearAddForm();
+                } else {
+                    throw new Error('Failed to add location.');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert(error.message);
+            }
         }
     });
-    // Function to clear the form fields
+});
+
 function clearAddForm() {
     const addForm = document.getElementById('add-location-form');
     addForm.reset();
 }
 
-});
+function validateAndProcessFormData(formData) {
+    formData.lat = formData.lat ? parseFloat(formData.lat) : null;
+    formData.lng = formData.lng ? parseFloat(formData.lng) : null;
+
+    if (isNaN(formData.lat) || isNaN(formData.lng)) {
+        console.error('Invalid coordinates:', formData.lat, formData.lng);
+        alert('Invalid coordinates. Please enter valid latitude and longitude values.');
+        return false;
+    }
+    return true;
+}
+
+async function postLocationToBackend(newLocation) {
+    try {
+        const response = await fetch('http://localhost:8000/loc', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(newLocation),
+        });
+
+        if (response.ok) {
+            return response;
+        } else {
+            throw new Error('Failed to add location.');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        throw error;
+    }
+}
