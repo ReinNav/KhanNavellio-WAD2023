@@ -189,7 +189,9 @@ const goToUpdateScreen = async (event) => {
         if (deleteButton) deleteButton.style.display = 'none';
         if (formTitle) formTitle.textContent = 'Location Info';
         disableFormFields('update-location-form');
-        enableCancelButton();        
+
+        const cancelButton = document.querySelector('.cancel-btn-update');
+        cancelButton.disabled = false;
 
     }
 
@@ -247,6 +249,30 @@ const fillUpdateFormWithData = (location) => {
     document.getElementById('flatitude-update').value = location.lat || '';
     document.getElementById('flongitude-update').value = location.lng || '';
     document.getElementById('fpollution-level-update').value = location.pollutionLevel || '';
+}
+
+function disableFormFields(formId) {
+    const form = document.getElementById(formId);
+    if (!form) {
+        console.error('Form not found:', formId);
+        return;
+    }
+
+    const inputs = form.getElementsByTagName('input');
+    for (const input of inputs) {
+        input.disabled = true;
+    }
+    
+    const textareas = form.getElementsByTagName('textarea');
+    for (const textarea of textareas) {
+        textarea.disabled = true;
+    }
+    
+    const selects = form.getElementsByTagName('select');
+    for (const select of selects) {
+        select.disabled = true;
+    }
+
 }
 
 function clearAddForm() {
