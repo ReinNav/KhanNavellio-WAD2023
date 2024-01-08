@@ -66,8 +66,6 @@ router.put('/:id', async (req, res) => {
   try {
     const locationId = req.params.id; 
     const updatedLocationData = req.body; 
-    console.log("hi")
-    console.log(locationId)
 
     const updatedLocation = await mongoCRUDs.updateLocation(locationId, updatedLocationData);
 

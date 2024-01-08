@@ -10,7 +10,7 @@ async function fetchLocations() {
         return await response.json();
     } catch (error) {
         console.error('Error fetching locations:', error);
-        return []; // Return an empty array in case of error
+        return []; // return empty when error
     }
 }
 
@@ -38,7 +38,6 @@ async function postLocationToBackend(newLocation) {
       });
   
       if (response.ok) {
-        console.log(response)
         const locationHeader = response.headers.get('Location');
         const locationId = locationHeader.split('/').pop(); // Assuming the ID is the last segment
         return locationId;

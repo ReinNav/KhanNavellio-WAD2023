@@ -8,15 +8,12 @@ export async function geocodeAddress(address) {
       console.log(address);
       fetch(url)
         .then(response => {
-          console.log(response);
           if (!response.ok) {
             throw new Error('Error in geocoding!');
           }
           return response.json();
         })
         .then(data => {
-
-          console.log(data);
 
           const street = data.results[0].locations[0].street;
           const postalCode = data.results[0].locations[0].postalCode;
