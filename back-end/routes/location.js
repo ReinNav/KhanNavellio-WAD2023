@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const mongoCRUDs = require('../db/mongoCRUDs'); 
 
-// Define the GET route for /loc
+//  GET /loc, status with payload all locations
 router.get('/', async function(req, res) {
     console.log("Request received at /loc");
 
@@ -22,40 +22,36 @@ router.get('/', async function(req, res) {
     }
   });
 
- // Define the GET route for /loc/:id (to retrieve a location by ID)
+ //  GET /loc/:id, status with payload location w id
 router.get('/:id', async (req, res) => {
   try {
-    const locationId = req.params.id; // Get the location ID from the URL
+    const locationId = req.params.id; 
 
-    // Use the locationId to retrieve the location from MongoDB using mongoCRUDs
     const location = await mongoCRUDs.getLocationById(locationId);
 
     if (location) {
-      res.status(200).json(location); // Respond with the location data
+      res.status(200).json(location);
     } else {
-      res.status(404).send('Location not found'); // Location with the provided ID not found
+      res.status(404).send('Location not found'); 
     }
   } catch (error) {
     console.error(error);
-    res.status(500).send('Server error'); // Internal server error
+    res.status(500).send('Server error');
   }
 });
 
-// Define the POST route for /loc
+//  POST /loc, with payload in header Location: /loc/newid
 router.post('/', async (req, res) => {
   try {
     console.log("post request received")
     const newLocation = req.body;
 
-    console.log(req.body)
-
-    // Add newLocation to MongoDB
     const addedLocationId = await mongoCRUDs.addLocation(newLocation);
 
     if (addedLocationId) {
-      newLocation._id = addedLocationId;
-      res.status(201).json(newLocation);
-      //res.status(201).header('Location', `/loc/${addedLocationId}`).send('Location added successfully');
+     // newLocation._id = addedLocationId;
+      //res.status(201).json(newLocation);
+      res.status(201).set('Location', `/loc/${addedLocationId}`).send('Location added successfully');
     } else {
       res.status(400).send('Could not add location');
     }
@@ -65,46 +61,45 @@ router.post('/', async (req, res) => {
   }
 });
 
-// Define the PUT route for /loc/:id (to update a location)
+// PUT /loc/:id, status 204 no payload
 router.put('/:id', async (req, res) => {
   try {
-    const locationId = req.params.id; // Get the location ID from the URL
-    const updatedLocationData = req.body; // New location data to update
+    const locationId = req.params.id; 
+    const updatedLocationData = req.body; 
     console.log("hi")
     console.log(locationId)
-    // Update the location with the provided ID
+
     const updatedLocation = await mongoCRUDs.updateLocation(locationId, updatedLocationData);
 
     if (updatedLocation) {
-      res.status(200).send(locationId)// Respond with the updated location
+      res.status(204).send();
     } else {
-      res.status(404).send('Location not found'); // Location with the provided ID not found
+      res.status(404).send('Location not found');
     }
   } catch (error) {
     console.error(error);
-    res.status(500).send('Server error'); // Internal server error
+    res.status(500).send('Server error');
   }
 });
 
 
-// Define the DELETE route for /loc/:id (to delete a location)
+// DELETE loc/:id, status 204 no payload
 router.delete('/:id', async (req, res) => {
 
   
   try {
-      const locationId = req.params.id; // Get the location ID from the URL
+      const locationId = req.params.id; 
 
-      // Delete the location with the provided ID using mongoCRUDs
       const deletedLocation = await mongoCRUDs.deleteLocation(locationId);
 
       if (deletedLocation) {
-          res.status(200).json(deletedLocation); // Respond with the deleted location
+          res.status(204).send();
       } else {
-          res.status(404).send('Location not found'); // Location with the provided ID not found
+          res.status(404).send('Location not found'); 
       }
   } catch (error) {
       console.error(error);
-      res.status(500).send('Server error'); // Internal server error
+      res.status(500).send('Server error'); 
   }
 });
 module.exports = router;

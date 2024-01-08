@@ -15,6 +15,16 @@ export async function geocodeAddress(address) {
           return response.json();
         })
         .then(data => {
+
+          console.log(data);
+
+          const street = data.results[0].locations[0].street;
+          const postalCode = data.results[0].locations[0].postalCode;
+
+          if (street === '' || postalCode === '') {
+            throw new Error('No locations found');
+          }
+
           const locations = data.results[0].locations;
 
           if (locations && locations.length > 0) {

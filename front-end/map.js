@@ -1,8 +1,4 @@
-import { getLocationById, goToUpdateScreen } from "./domHelper.js";
-import { geocodeAddress } from "./geoservice.js";
-
-
-
+import { goToUpdateScreen } from "./domHelper.js";
 
 // Fetch location data from the backend
 async function fetchLocations() {
@@ -42,10 +38,13 @@ async function postLocationToBackend(newLocation) {
       });
   
       if (response.ok) {
-        return response;
-      } else {
+        console.log(response)
+        const locationHeader = response.headers.get('Location');
+        const locationId = locationHeader.split('/').pop(); // Assuming the ID is the last segment
+        return locationId;
+    } else {
         throw new Error('Failed to add location.');
-      }
+    }
     } catch (error) {
       console.error('Error:', error);
       throw error;
@@ -59,23 +58,19 @@ async function addLocation(newLocation, isNew = false) {
 
         if (isNew) {
             try {
-                const response = await postLocationToBackend(newLocation);
-                const newLocationWithId = await response.json();
-                location = newLocationWithId;
+                const newLocationId = await postLocationToBackend(newLocation);
+                console.log(newLocationId)
+                location._id = newLocationId;
                 console.log(location); // Should now have the ID
             } catch (error) {
                 alert(error);
-                return; // Exit the function, as we couldn't add the location
+                return; 
             }
         }
 
-        //console.log(location); 
+
         const { name, street, city, state, pollutionLevel, _id } = location;
         
-        // let hiddenIdElement = '';
-        // if (!isNew) {
-        //     hiddenIdElement = `<input type="hidden" class="location-id" value="${newLocation_id}">`;
-        // }
         
         const locationItem = document.createElement('li');
         locationItem.className = "location-li-item";
@@ -103,7 +98,7 @@ async function addLocation(newLocation, isNew = false) {
         locationsList.appendChild(locationItem);
         addPinpointToMap(location.lat, location.lng, name, _id);
 
-        console.log(locations);
+        //console.log(locations);
 
     } catch (error) {
         console.error('Error adding location:', error);
@@ -127,7 +122,7 @@ function updateLocationListItem(updatedLocationId, newData, oldData) {
     
     }
 
-    console.log(locations);
+    //console.log(locations);
 }
 
 function addPinpointToMap(lat, lng, name, locationId) {
@@ -140,7 +135,7 @@ function addPinpointToMap(lat, lng, name, locationId) {
     //console.log(lat, lng);
     // Create and add the marker to the map
     const marker = L.marker([lat, lng], { id: locationId });
-    console.log(marker);
+    //console.log(marker);
     map.addLayer(marker);
     marker.bindPopup(name);
     marker.on('click', function(e) {
@@ -162,50 +157,6 @@ async function initializeMap() {
         }
     } else {
         console.error('No locations fetched from backend');
-    }
-}
-
-function updateLocation(location, newData) {
-    for (let i = 0; i < locations.length; i++) {
-        if (locations[i].name === location.name) {
-            locations[i] = newData;
-        }
-    }
-}
-
-function getLocationByName(locationName) {
-    console.log('Searching for location:', locationName);
-    console.log('Current locations:', locations);
-
-    for (let i = 0; i < locations.length; i++) {
-        if (locations[i].name === locationName) {
-            console.log('Location found:', locations[i]);
-            return locations[i];
-        }
-    }
-    console.error('Location not found:', locationName);
-    return null;
-}
-
-function updatePinpoint(oldData, newData) {
-    for (let i = 0; i < markers.length; i++) {
-        
-        let markerLat = markers[i].getLatLng().lat;
-        let markerLng = markers[i].getLatLng().lng;
-        let markerName = markers[i].getPopup().getContent();
-
-        // Check if the marker matches the old data
-        if (markerLat === parseFloat(oldData.lat) && markerLng === parseFloat(oldData.lng) && markerName === oldData.name) {
-            // Update the marker's position and name
-            markers[i].setLatLng([parseFloat(newData.lat), parseFloat(newData.lng)]);
-            markers[i].bindPopup(newData.name);
-
-            // Refresh the popup if it's open
-            if (markers[i].isPopupOpen()) {
-                markers[i].openPopup();
-            }
-            break; // Exit the loop once the marker is found
-        }
     }
 }
 
@@ -235,25 +186,16 @@ function removeMarkerFromMap(locationId) {
             console.log(map.hasLayer(markers[i]))
             map.removeLayer(markers[i])
             markers.splice(i, 1);
-            console.log("Marker removed");
-            console.log("Is marker still on map? ", map.hasLayer(markers[i]));
+            // console.log("Marker removed");
+            // console.log("Is marker still on map? ", map.hasLayer(markers[i]));
             break;
         }
     }
 }
 
-
-
-
-
-
-
 export {
     addLocation,
     initializeMap,
-    getLocationByName,
-    updateLocation,
-    updatePinpoint,
     removeLocationFromList,
     removeMarkerFromMap,
     updateLocationListItem

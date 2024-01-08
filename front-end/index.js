@@ -1,6 +1,6 @@
 import { login } from './spa_functionality.js';
-import { goToLoginScreen, clearAddForm, goToMainScreen, collectFormSubmission } from './domHelper.js';
-import { initializeMap, addLocation } from "./map.js";
+import { goToLoginScreen } from './domHelper.js';
+import { initializeMap } from "./map.js";
 
 document.addEventListener('DOMContentLoaded', function() {
     initializeMap();
@@ -19,58 +19,4 @@ document.addEventListener('DOMContentLoaded', function() {
     if (logoutButton) {
         logoutButton.onclick = goToLoginScreen;
     }
-
-    // document.getElementById('add-location-form').addEventListener('submit', async function(event) {
-    //     event.preventDefault();
-    //     var formData = collectFormSubmission("-add");
-
-    //     if (validateAndProcessFormData(formData)) {
-    //         try {
-    //             const response = await postLocationToBackend(formData);
-    //             if (response.ok) {
-    //                 await addLocation(formData, true); // true indicates it's a new location
-    //                 goToMainScreen();
-    //                 clearAddForm();
-    //             } else {
-    //                 throw new Error('Failed to add location.');
-    //             }
-    //         } catch (error) {
-    //             console.error('Error:', error);
-    //             alert(error.message);
-    //         }
-    //     }
-    // });
 });
-
-function validateAndProcessFormData(formData) {
-    formData.lat = formData.lat ? parseFloat(formData.lat) : null;
-    formData.lng = formData.lng ? parseFloat(formData.lng) : null;
-
-    if (isNaN(formData.lat) || isNaN(formData.lng)) {
-        console.error('Invalid coordinates:', formData.lat, formData.lng);
-        alert('Invalid coordinates. Please enter valid latitude and longitude values.');
-        return false;
-    }
-    return true;
-}
-
-async function postLocationToBackend(newLocation) {
-    try {
-        const response = await fetch('http://localhost:8000/loc', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(newLocation),
-        });
-
-        if (response.ok) {
-            return response;
-        } else {
-            throw new Error('Failed to add location.');
-        }
-    } catch (error) {
-        console.error('Error:', error);
-        throw error;
-    }
-}

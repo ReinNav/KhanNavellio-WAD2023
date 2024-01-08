@@ -10,7 +10,15 @@ const cors = require('cors');
 let app = express();
 
 app.use(express.json());
-app.use(cors());
+
+const corsOptions = {
+  origin: '*', // This allows all origins
+  methods: 'GET,PUT,POST,DELETE', // These HTTP methods are allowed
+  allowedHeaders: 'Content-Type,Location', // These headers are allowed in requests
+  exposedHeaders: 'Location', // This exposes the Location header to the client
+};
+
+app.use(cors(corsOptions));
 
 
 
@@ -34,6 +42,5 @@ app.use(function(err, res) {
   // send the error page
   res.status(err.status || 500).send('error' + err.message);
 });
- 
 
 module.exports = app;

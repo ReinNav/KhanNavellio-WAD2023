@@ -14,6 +14,12 @@ const locationRouter = require('./routes/location');
 app.use(cors());
 app.use('/loc', locationRouter);
 app.use(bodyParser.json());
+app.use((req, res, next) => {
+  res.append('Access-Control-Allow-Origin', ['*']);
+  res.append('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+  res.append('Access-Control-Allow-Headers', 'Location');
+  next();
+});
 
 let port = 8000;
 app.set('port', port);

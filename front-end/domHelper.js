@@ -1,4 +1,4 @@
-import { getLocationByName, updateLocationListItem, updatePinpoint, addLocation, initializeMap } from "./map.js";
+import { updateLocationListItem, addLocation } from "./map.js";
 import { geocodeAddress } from "./geoservice.js";
 import { removeLocationFromList, removeMarkerFromMap } from './map.js';
 var role = "";
@@ -60,7 +60,7 @@ const updateFormSubmitHandler = async (event) => {
         let oldAddress = `${location.street}, ${location.postalCode}, ${location.city}`;
         let newAddress = `${newData.street}, ${newData.postalCode}, ${newData.city}`;
 
-        if (oldAddress !== newAddress || lat === '' || lng === '' || location.lng !== newData.lng 
+        if (oldAddress !== newAddress || newData.lat === '' || newData.lng === '' || location.lng !== newData.lng 
             || location.lat !== newData.lat ) {
             const latLng = await geocodeAddress(newAddress);
             console.log(latLng);
@@ -90,7 +90,7 @@ const updateLocationBackend = async (location, newData) => {
         body: JSON.stringify(newData),
     })
     .then(response => {
-        if (!response.ok) {
+        if (response.status !== 204) {
             throw new Error('Failed to update location');
         }
         return response;
@@ -132,7 +132,7 @@ const deleteLocationHandler = async (locationId) => {
                 method: 'DELETE',
             });
 
-            if (response.ok) {
+            if (response.status === 204 ) {
                 removeLocationFromList(locationId);
                 removeMarkerFromMap(locationId);
             } else {
@@ -235,7 +235,7 @@ const fillUpdateFormWithData = (location) => {
     if (!location) {
         console.error('Location data is null');
         alert('Location data not found.');
-        return; // Exit the function if location is null
+        return;
     }
 
     document.getElementById('fname-update').value = location.name || '';
