@@ -20,26 +20,26 @@ document.addEventListener('DOMContentLoaded', function() {
         logoutButton.onclick = goToLoginScreen;
     }
 
-    document.getElementById('add-location-form').addEventListener('submit', async function(event) {
-        event.preventDefault();
-        var formData = collectFormSubmission("-add");
+    // document.getElementById('add-location-form').addEventListener('submit', async function(event) {
+    //     event.preventDefault();
+    //     var formData = collectFormSubmission("-add");
 
-        if (validateAndProcessFormData(formData)) {
-            try {
-                const response = await postLocationToBackend(formData);
-                if (response.ok) {
-                    await addLocation(formData, true); // true indicates it's a new location
-                    goToMainScreen();
-                    clearAddForm();
-                } else {
-                    throw new Error('Failed to add location.');
-                }
-            } catch (error) {
-                console.error('Error:', error);
-                alert(error.message);
-            }
-        }
-    });
+    //     if (validateAndProcessFormData(formData)) {
+    //         try {
+    //             const response = await postLocationToBackend(formData);
+    //             if (response.ok) {
+    //                 await addLocation(formData, true); // true indicates it's a new location
+    //                 goToMainScreen();
+    //                 clearAddForm();
+    //             } else {
+    //                 throw new Error('Failed to add location.');
+    //             }
+    //         } catch (error) {
+    //             console.error('Error:', error);
+    //             alert(error.message);
+    //         }
+    //     }
+    // });
 });
 
 function validateAndProcessFormData(formData) {

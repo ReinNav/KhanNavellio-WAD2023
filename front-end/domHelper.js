@@ -33,13 +33,13 @@ const asNonAdmin = () => {
 const goToAddScreen = () => {
     hideAllSections();
     document.getElementById('add-screen').style.display = 'block'; 
-    const addButton = document.getElementById('add-submit-btn');
-    addButton.removeEventListener('click', submitAddLocationForm);
-    addButton.addEventListener('click', (e) => submitAddLocationForm(e));
+    const addForm = document.getElementById('add-location-form');
+    addForm.removeEventListener('submit', submitAddLocationForm);
+    addForm.addEventListener('submit', submitAddLocationForm);
 }
 
-const goToMainScreen = async () => {
-     await initializeMap();
+const goToMainScreen = () => {
+     //await initializeMap();
      hideAllSections();   
     document.getElementById('main-screen').style.display = 'block';
 }
@@ -56,10 +56,22 @@ const updateFormSubmitHandler = async (event) => {
     var newData = collectFormSubmission("-update");
 
     try {
+
+        let oldAddress = `${location.street}, ${location.postalCode}, ${location.city}`;
+        let newAddress = `${newData.street}, ${newData.postalCode}, ${newData.city}`;
+
+        if (oldAddress !== newAddress || lat === '' || lng === '' || location.lng !== newData.lng 
+            || location.lat !== newData.lat ) {
+            const latLng = await geocodeAddress(newAddress);
+            console.log(latLng);
+
+            newData.lat = latLng.lat;
+            newData.lng = latLng.lng;
+        }
+
         const update = await updateLocationBackend(location, newData);
-        await updateLocationListItem(locationId); // update location list item for ul
-        await goToMainScreen();
-        updatePinpoint(location, newData);
+        updateLocationListItem(locationId, newData, location); // update location list item for ul
+        goToMainScreen();
     } catch (error) {
         console.error('Error updating location:', error.message);
         alert('Failed to update location. Please try again.');
@@ -106,36 +118,34 @@ const submitAddLocationForm = async (event) => {
             console.log(locationData);
             await addLocation(locationData, true);
             clearAddForm();
-            await goToMainScreen();
+            goToMainScreen();
         } catch (error) {
             console.log(error.message);
             alert('Geocoding failed. Please check and try the input again.');
         }
     };
-// Function to delete a location from the backend
-const deleteLocationHandler = (locationName) => {
-    if (role === "admin") {
-        const location = getLocationByName(locationName);
-        if (location && location._id) {
-            fetch(`http://localhost:8000/loc/${location._id}`, {
+
+const deleteLocationHandler = async (locationId) => {
+    if (role === "admin" && locationId) {
+        try {
+            const response = await fetch(`http://localhost:8000/loc/${locationId}`, {
                 method: 'DELETE',
-            })
-            .then(response => {
-                if (response.ok) {
-                    removeLocationFromList(locationName);
-                    removeMarkerFromMap(locationName);
-                    goToMainScreen(); 
-                } else {
-                    throw new Error('Deletion failed');
-                }
-            })
-            .catch(error => {
-                console.error('Error deleting location:', error);
-                alert('Failed to delete location.');
             });
+
+            if (response.ok) {
+                removeLocationFromList(locationId);
+                removeMarkerFromMap(locationId);
+            } else {
+                throw new Error('Deletion failed');
+            }
+            goToMainScreen();
+        } catch (error) {
+            console.error('Error deleting location:', error.message);
+            alert('Failed to delete location.');
         }
     }
 };
+
 
 
 const goToUpdateScreen = async (event) => {
@@ -156,16 +166,21 @@ const goToUpdateScreen = async (event) => {
     fillUpdateFormWithData(location);
     // Show or hide buttons based on the user role
     const submitButton = document.getElementById('submit-button');
-    const deleteButton = document.getElementById('delete-btn');
     const formTitle = document.getElementById('form-title-update');
     const updateForm = document.getElementById('update-location-form')
+    const deleteButton = document.getElementById('delete-btn');
 
     if (role === "admin") {
         // Show submit and delete buttons for admin
         if (submitButton) submitButton.style.display = 'block';
+
         if (deleteButton) {
             deleteButton.style.display = 'block';
-            deleteButton.onclick = () => deleteLocationHandler(locationName);
+            deleteButton.type = 'button';
+            deleteButton.onclick = (event) => {
+                event.stopPropagation(); 
+                deleteLocationHandler(locationId);
+            };
         }
 
     } else if (role === "non-admin") {

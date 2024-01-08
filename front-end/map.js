@@ -101,42 +101,47 @@ async function addLocation(newLocation, isNew = false) {
         locationItem.onclick = goToUpdateScreen;
         
         locationsList.appendChild(locationItem);
-        
-        // Add a marker to the map using the extracted coordinates
-        addPinpointToMap(location.lat, location.lng, name);
+        addPinpointToMap(location.lat, location.lng, name, _id);
+
+        console.log(locations);
 
     } catch (error) {
         console.error('Error adding location:', error);
     }
 }
 
-async function updateLocationListItem(updatedLocationId) {
+function updateLocationListItem(updatedLocationId, newData, oldData) {
     const locationItem = locations[updatedLocationId];
-    let location = await getLocationById(updatedLocationId)
-    console.log(location)
-    console.log(updatedLocationId)
     if (locationItem) {
-        // Update the content of the list item based on updatedLocation data
-        locationItem.querySelector('.location-title').textContent = location.name;
-        locationItem.querySelector('.location-street').textContent = location.street;
-        locationItem.querySelector('.location-city').textContent = location.city;
-        locationItem.querySelector('.location-level').textContent = location.pollutionLevel;
+
+        locationItem.querySelector('.location-title').textContent = newData.name;
+        locationItem.querySelector('.location-street').textContent = newData.street;
+        locationItem.querySelector('.location-city').textContent = `${newData.city}, ${newData.state}`;
+        locationItem.querySelector('.location-level').textContent = `Pollution level: ${newData.pollutionLevel}/10`;
+        
+        if (oldData.lat !== newData.lat || oldData.lng !== newData.lng) {
+            removeMarkerFromMap(updatedLocationId);
+            
+            addPinpointToMap(newData.lat, newData.lng, newData.name, updatedLocationId);
+        }
+    
     }
+
+    console.log(locations);
 }
 
-
-
-// Function to add a pinpoint (marker) to the map
-function addPinpointToMap(lat, lng, name) {
+function addPinpointToMap(lat, lng, name, locationId) {
     // Check if latitude and longitude are valid
     if (lat === null || lng === null || isNaN(lat) || isNaN(lng)) {
         console.error(`Invalid coordinates for marker: ${name}. Latitude: ${lat}, Longitude: ${lng}`);
-        return; // Skip marker creation if coordinates are invalid
+        return; 
     }
 
     //console.log(lat, lng);
     // Create and add the marker to the map
-    const marker = L.marker([lat, lng]).addTo(map);
+    const marker = L.marker([lat, lng], { id: locationId });
+    console.log(marker);
+    map.addLayer(marker);
     marker.bindPopup(name);
     marker.on('click', function(e) {
         marker.openPopup();
@@ -148,9 +153,8 @@ function addPinpointToMap(lat, lng, name) {
 // Initialize map with locations fetched from backend
 async function initializeMap() {
     const locationsList = document.querySelector('#locations-side-bar ul');
-    console.log("clearing");
     locationsList.replaceChildren();
-    
+
     const fetchedLocations = await fetchLocations();
     if (fetchedLocations && fetchedLocations.length > 0) {
         for (const location of fetchedLocations) {
@@ -204,29 +208,43 @@ function updatePinpoint(oldData, newData) {
         }
     }
 }
-function removeLocationFromList(locationName) {
-    // Remove location from array
-    locations = locations.filter(location => location.name !== locationName);
 
-    // Remove corresponding list item from DOM
-    const locationsList = document.querySelector('#locations-side-bar ul');
-    const locationItems = locationsList.querySelectorAll('.location-li-item');
-    locationItems.forEach(item => {
-        if (item.querySelector('.location-title').textContent === locationName) {
-            locationsList.removeChild(item);
-        }
-    });
+function removeLocationFromList(locationId) {
+
+    if (!locationId) {
+        console.error('Location ID not found on clicked element');
+        return;
+    }
+
+    const locationListItem = locations[locationId];
+
+    if (locationListItem) {
+        locationListItem.remove();
+        delete locations[locationId];
+    } else {
+        console.error('List item for location ID not found:', locationId);
+    }
 }
-function removeMarkerFromMap(locationName) {
-    for (let i = 0; i < markers.length; i++) {
-        let markerName = markers[i].getPopup().getContent();
-        if (markerName === locationName) {
-            map.removeLayer(markers[i]);
+
+function removeMarkerFromMap(locationId) {
+    console.log("Removing marker for locationId:", locationId);
+    for (let i = markers.length - 1; i >= 0; i--) {
+        console.log("Checking marker with id:", markers[i].options.id);
+        if (markers[i].options.id === locationId) {
+            console.log("Found marker to remove:", markers[i]);
+            console.log(map.hasLayer(markers[i]))
+            map.removeLayer(markers[i])
             markers.splice(i, 1);
+            console.log("Marker removed");
+            console.log("Is marker still on map? ", map.hasLayer(markers[i]));
             break;
         }
     }
 }
+
+
+
+
 
 
 
