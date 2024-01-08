@@ -6,7 +6,12 @@ export async function geocodeAddress(address) {
     // Return a promise with the lat long from response
     return new Promise((resolve, reject) => {
       fetch(url)
-        .then(response => response.json())
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Error in geocoding!');
+          }
+          response.json()
+        })
         .then(data => {
           const locations = data.results[0].locations;
 

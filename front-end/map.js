@@ -1,4 +1,4 @@
-import { goToUpdateScreen } from "./domHelper.js";
+import { getLocationById, goToUpdateScreen } from "./domHelper.js";
 import { geocodeAddress } from "./geoservice.js";
 
 
@@ -29,9 +29,8 @@ var map = L.mapquest.map('map', {
 });
 
 var markers = [];
-var locations = []; // Store fetched locations
+var locations = {}; // Store fetched locations
 
-// In map.js
 async function postLocationToBackend(newLocation) {
     try {
       const response = await fetch('http://localhost:8000/loc', {
@@ -54,42 +53,30 @@ async function postLocationToBackend(newLocation) {
   }
   
 
-  async function addLocation(newLocation, isNew = false) {
+async function addLocation(newLocation, isNew = false) {
     try {
-        // Geocode the location to obtain coordinates
-        const coordinates = await geocodeAddress(newLocation.street + ', ' + newLocation.postalCode + ', ' + newLocation.city + ', ' + newLocation.state);
+        let location = newLocation;
 
-        if (!coordinates) {
-            console.error(`Failed to geocode location: ${newLocation.name}`);
-            return; // Skip adding this location if geocoding failed
-        }
-
-        const { name, street, city, state, pollutionLevel } = newLocation;
-        const { lat, lng } = coordinates;
-
-        // Function to extract latitude and longitude values
-        function extractCoordinate(coord) {
-            if (coord && typeof coord === 'object' && '$numberDecimal' in coord) {
-                return parseFloat(coord['$numberDecimal']);
-            } else if (typeof coord === 'number') {
-                return coord; // Already a number, return as is.
-            } else if (typeof coord === 'string') {
-                return parseFloat(coord); // Parse a string to a number.
-            } else {
-                return null; // coord is null, undefined, or not a valid type.
+        if (isNew) {
+            try {
+                const response = await postLocationToBackend(newLocation);
+                const newLocationWithId = await response.json();
+                location = newLocationWithId;
+                console.log(location); // Should now have the ID
+            } catch (error) {
+                alert(error);
+                return; // Exit the function, as we couldn't add the location
             }
         }
 
-        const latitude = extractCoordinate(lat);
-        const longitude = extractCoordinate(lng);
-
-        // Check if the coordinates are valid numbers
-        if (isNaN(latitude) || isNaN(longitude)) {
-            console.error(`Invalid coordinates for location: ${name}. Latitude: ${latitude}, Longitude: ${longitude}`);
-            return; // Skip adding this location if coordinates are invalid
-        }
-
-        // Create a list item for the sidebar
+        //console.log(location); 
+        const { name, street, city, state, pollutionLevel, _id } = location;
+        
+        // let hiddenIdElement = '';
+        // if (!isNew) {
+        //     hiddenIdElement = `<input type="hidden" class="location-id" value="${newLocation_id}">`;
+        // }
+        
         const locationItem = document.createElement('li');
         locationItem.className = "location-li-item";
         locationItem.innerHTML = `
@@ -107,22 +94,36 @@ async function postLocationToBackend(newLocation) {
         `;
 
         // Append the new location to the sidebar
+        locations[_id] = locationItem;
+        locationItem.dataset.locationId = _id;
+        //console.log(locationItem.dataset.locationId)
         const locationsList = document.querySelector('#locations-side-bar ul');
         locationItem.onclick = goToUpdateScreen;
+        
         locationsList.appendChild(locationItem);
-
+        
         // Add a marker to the map using the extracted coordinates
-        addPinpointToMap(latitude, longitude, name);
-        locations.push(newLocation);
+        addPinpointToMap(location.lat, location.lng, name);
 
-        // If the location is new, send it to the backend
-        if (isNew) {
-            postLocationToBackend(newLocation);
-        }
     } catch (error) {
         console.error('Error adding location:', error);
     }
 }
+
+async function updateLocationListItem(updatedLocationId) {
+    const locationItem = locations[updatedLocationId];
+    let location = await getLocationById(updatedLocationId)
+    console.log(location)
+    console.log(updatedLocationId)
+    if (locationItem) {
+        // Update the content of the list item based on updatedLocation data
+        locationItem.querySelector('.location-title').textContent = location.name;
+        locationItem.querySelector('.location-street').textContent = location.street;
+        locationItem.querySelector('.location-city').textContent = location.city;
+        locationItem.querySelector('.location-level').textContent = location.pollutionLevel;
+    }
+}
+
 
 
 // Function to add a pinpoint (marker) to the map
@@ -133,6 +134,7 @@ function addPinpointToMap(lat, lng, name) {
         return; // Skip marker creation if coordinates are invalid
     }
 
+    //console.log(lat, lng);
     // Create and add the marker to the map
     const marker = L.marker([lat, lng]).addTo(map);
     marker.bindPopup(name);
@@ -145,14 +147,19 @@ function addPinpointToMap(lat, lng, name) {
 
 // Initialize map with locations fetched from backend
 async function initializeMap() {
+    const locationsList = document.querySelector('#locations-side-bar ul');
+    console.log("clearing");
+    locationsList.replaceChildren();
+    
     const fetchedLocations = await fetchLocations();
     if (fetchedLocations && fetchedLocations.length > 0) {
-        fetchedLocations.forEach(location => addLocation(location));
+        for (const location of fetchedLocations) {
+            await addLocation(location);
+        }
     } else {
         console.error('No locations fetched from backend');
     }
 }
-
 
 function updateLocation(location, newData) {
     for (let i = 0; i < locations.length; i++) {
@@ -230,5 +237,6 @@ export {
     updateLocation,
     updatePinpoint,
     removeLocationFromList,
-    removeMarkerFromMap
+    removeMarkerFromMap,
+    updateLocationListItem
 }

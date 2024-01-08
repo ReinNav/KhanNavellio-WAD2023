@@ -1,7 +1,6 @@
-import { getLocationByName, updateLocation, updatePinpoint, addLocation } from "./map.js";
+import { getLocationByName, updateLocationListItem, updatePinpoint, addLocation, initializeMap } from "./map.js";
 import { geocodeAddress } from "./geoservice.js";
 import { removeLocationFromList, removeMarkerFromMap } from './map.js';
-
 var role = "";
 
 // Utility functions for showing/hiding elements
@@ -34,10 +33,14 @@ const asNonAdmin = () => {
 const goToAddScreen = () => {
     hideAllSections();
     document.getElementById('add-screen').style.display = 'block'; 
+    const addButton = document.getElementById('add-submit-btn');
+    addButton.removeEventListener('click', submitAddLocationForm);
+    addButton.addEventListener('click', (e) => submitAddLocationForm(e));
 }
 
-const goToMainScreen = () => {
-    hideAllSections();
+const goToMainScreen = async () => {
+     await initializeMap();
+     hideAllSections();   
     document.getElementById('main-screen').style.display = 'block';
 }
 
@@ -46,41 +49,27 @@ const goToLoginScreen = () => {
     document.getElementById('login-screen').style.display = 'flex';
 }
 
-// Form submission handlers
-const updateFormSubmitHandler = (event, location, nameElement, streetElement, cityElement, levelElement) => {
+const updateFormSubmitHandler = async (event) => {
     event.preventDefault();
+    const locationId = event.currentTarget.dataset.locationId;
+    const location = await getLocationById(locationId)
     var newData = collectFormSubmission("-update");
-    console.log(newData);
 
-    // If latitude or longitude is empty, use geocoding service to get them
-    if (newData.lat === "" || newData.lng === "") {
-        const fullAddress = `${newData.street}, ${newData.postalCode}, ${newData.city}`;
-        geocodeAddress(fullAddress)
-            .then(latLng => {
-                newData.lat = String(latLng.lat);
-                newData.lng = String(latLng.lng);  
-                updateLocationBackend(location, newData); // Update location in backend
-                goToMainScreen();
-            })
-            .catch(error => {
-                console.log(error.message);
-                alert('Geocoding failed. Please check and try the input again.');
-            });
-    } else {
-        updateLocationBackend(location, newData); // Update location in backend
-        goToMainScreen();
+    try {
+        const update = await updateLocationBackend(location, newData);
+        await updateLocationListItem(locationId); // update location list item for ul
+        await goToMainScreen();
+        updatePinpoint(location, newData);
+    } catch (error) {
+        console.error('Error updating location:', error.message);
+        alert('Failed to update location. Please try again.');
     }
-
-    // Update the UI with new location data
-    nameElement.textContent = newData.name;
-    streetElement.textContent = newData.street;
-    cityElement.textContent = `${newData.city}, ${newData.state}`;
-    levelElement.textContent = `Pollution level: ${newData.pollutionLevel}`;
-    updatePinpoint(location, newData);
 };
 
 // Function to update location in the backend
-const updateLocationBackend = (location, newData) => {
+const updateLocationBackend = async (location, newData) => {
+    console.log(location)
+
     fetch(`http://localhost:8000/loc/${location._id}`, {
         method: 'PUT',
         headers: {
@@ -88,37 +77,41 @@ const updateLocationBackend = (location, newData) => {
         },
         body: JSON.stringify(newData),
     })
-    .then(response => response.json())
-    .then(updatedLocation => {
-        console.log('Location updated successfully:', updatedLocation);
-        // Optionally update the frontend here
-    })
-    .catch(error => console.error('Error updating location:', error));
-};
-
-// Function to add a new location
-const submitAddLocationForm = (event) => {
-    event.preventDefault();
-    const locationData = collectFormSubmission(""); // Assuming this collects add form data
-
-    fetch('http://localhost:8000/loc', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(locationData),
-    })
-    .then(response => response.json())
-    .then(addedLocation => {
-        addLocation(addedLocation); // Add the location to the map
-        goToMainScreen();
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Failed to update location');
+        }
+        return response;
     })
     .catch(error => {
-        console.error('Error adding location:', error);
-        alert('Failed to add location.');
+        console.error('Error updating location:', error);
+        throw error;
     });
 };
 
+
+const submitAddLocationForm = async (event) => {
+        event.preventDefault();
+    
+        const locationData = collectFormSubmission("-add");
+        const address = `${locationData.street}, ${locationData.postalCode}, ${locationData.city}`;
+    
+        try {
+            const latLng = await geocodeAddress(address);
+            console.log(latLng);
+
+            locationData.lat = latLng.lat;
+            locationData.lng = latLng.lng;
+    
+            console.log(locationData);
+            await addLocation(locationData, true);
+            clearAddForm();
+            await goToMainScreen();
+        } catch (error) {
+            console.log(error.message);
+            alert('Geocoding failed. Please check and try the input again.');
+        }
+    };
 // Function to delete a location from the backend
 const deleteLocationHandler = (locationName) => {
     if (role === "admin") {
@@ -145,19 +138,17 @@ const deleteLocationHandler = (locationName) => {
 };
 
 
-const goToUpdateScreen = (event) => {
+const goToUpdateScreen = async (event) => {
     var clickedLi = event.currentTarget;
 
     var nameElement = clickedLi.querySelector('.location-title');
-    var streetElement = clickedLi.querySelector('.location-street');
-    var cityElement = clickedLi.querySelector('.location-city');
-    var levelElement = clickedLi.querySelector('.location-level');
+    // var streetElement = clickedLi.querySelector('.location-street');
+    // var cityElement = clickedLi.querySelector('.location-city');
+    // var levelElement = clickedLi.querySelector('.location-level');
 
     var locationName = nameElement.textContent;
-    const location = getLocationByName(locationName);
-
-    console.log(location);
-    console.log(locationName);
+    const locationId = event.currentTarget.dataset.locationId;
+    const location = await getLocationById(locationId);
 
     hideAllSections();
     document.getElementById('update-delete-screen').style.display = 'block';
@@ -167,7 +158,7 @@ const goToUpdateScreen = (event) => {
     const submitButton = document.getElementById('submit-button');
     const deleteButton = document.getElementById('delete-btn');
     const formTitle = document.getElementById('form-title-update');
-
+    const updateForm = document.getElementById('update-location-form')
 
     if (role === "admin") {
         // Show submit and delete buttons for admin
@@ -187,10 +178,24 @@ const goToUpdateScreen = (event) => {
 
     }
 
-    // Remove any existing event listener and add a new one
-    const updateForm = document.getElementById('update-location-form');
+    updateForm.dataset.locationId = locationId;
+
     updateForm.removeEventListener('submit', updateFormSubmitHandler);
-    updateForm.addEventListener('submit', (e) => updateFormSubmitHandler(e, location, nameElement, streetElement, cityElement, levelElement));
+    updateForm.addEventListener('submit', updateFormSubmitHandler);
+}
+
+
+async function getLocationById(locationId) {
+    try {
+        const response = await fetch(`http://localhost:8000/loc/${locationId}`);
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json();
+    } catch (error) {
+        console.error('Error fetching location by ID:', error);
+        return null; // Return null in case of error
+    }
 }
 
 const collectFormSubmission = (identifier) => {
@@ -229,6 +234,11 @@ const fillUpdateFormWithData = (location) => {
     document.getElementById('fpollution-level-update').value = location.pollutionLevel || '';
 }
 
+function clearAddForm() {
+    const addForm = document.getElementById('add-location-form');
+    addForm.reset();
+}
+
 
 var cancelButtons = document.querySelectorAll('#cancel-btn');
 cancelButtons.forEach(function(cancelButton) {
@@ -243,5 +253,7 @@ export {
     goToLoginScreen,
     goToUpdateScreen,
     hideAllSections,
-    collectFormSubmission
+    collectFormSubmission,
+    clearAddForm,
+    getLocationById
 }

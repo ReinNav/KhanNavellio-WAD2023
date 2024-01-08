@@ -1,7 +1,6 @@
 import { login } from './spa_functionality.js';
-import { goToLoginScreen, goToUpdateScreen, goToMainScreen, collectFormSubmission } from './domHelper.js';
+import { goToLoginScreen, clearAddForm, goToMainScreen, collectFormSubmission } from './domHelper.js';
 import { initializeMap, addLocation } from "./map.js";
-import { geocodeAddress } from './geoservice.js';
 
 document.addEventListener('DOMContentLoaded', function() {
     initializeMap();
@@ -29,7 +28,7 @@ document.addEventListener('DOMContentLoaded', function() {
             try {
                 const response = await postLocationToBackend(formData);
                 if (response.ok) {
-                    addLocation(formData, true); // true indicates it's a new location
+                    await addLocation(formData, true); // true indicates it's a new location
                     goToMainScreen();
                     clearAddForm();
                 } else {
@@ -42,11 +41,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
-
-function clearAddForm() {
-    const addForm = document.getElementById('add-location-form');
-    addForm.reset();
-}
 
 function validateAndProcessFormData(formData) {
     formData.lat = formData.lat ? parseFloat(formData.lat) : null;

@@ -44,13 +44,18 @@ router.get('/:id', async (req, res) => {
 // Define the POST route for /loc
 router.post('/', async (req, res) => {
   try {
+    console.log("post request received")
     const newLocation = req.body;
+
+    console.log(req.body)
 
     // Add newLocation to MongoDB
     const addedLocationId = await mongoCRUDs.addLocation(newLocation);
 
     if (addedLocationId) {
-      res.status(201).header('Location', `/loc/${addedLocationId}`).send('Location added successfully');
+      newLocation._id = addedLocationId;
+      res.status(201).json(newLocation);
+      //res.status(201).header('Location', `/loc/${addedLocationId}`).send('Location added successfully');
     } else {
       res.status(400).send('Could not add location');
     }
@@ -65,12 +70,13 @@ router.put('/:id', async (req, res) => {
   try {
     const locationId = req.params.id; // Get the location ID from the URL
     const updatedLocationData = req.body; // New location data to update
-
+    console.log("hi")
+    console.log(locationId)
     // Update the location with the provided ID
     const updatedLocation = await mongoCRUDs.updateLocation(locationId, updatedLocationData);
 
     if (updatedLocation) {
-      res.status(200).json(updatedLocation); // Respond with the updated location
+      res.status(200).send(locationId)// Respond with the updated location
     } else {
       res.status(404).send('Location not found'); // Location with the provided ID not found
     }

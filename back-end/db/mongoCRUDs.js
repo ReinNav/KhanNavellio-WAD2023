@@ -97,7 +97,7 @@ MongoCRUDs.prototype.addLocation = async function(locationData) {
     const result = await locations.insertOne(locationData);
 
     if (result.insertedId) {
-      return { message: 'Location added successfully', locationId: result.insertedId };
+      return result.insertedId;
     } else {
       return null; // Handle the case where the location was not added
     }

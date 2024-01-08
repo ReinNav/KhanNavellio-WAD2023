@@ -6,13 +6,14 @@
 
 let app = require('./app');
 let http = require('http');
+let bodyParser = require("body-parser")
 const cors = require('cors');
 const locationRouter = require('./routes/location');
 
 
 app.use(cors());
 app.use('/loc', locationRouter);
-
+app.use(bodyParser.json());
 
 let port = 8000;
 app.set('port', port);
